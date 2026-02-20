@@ -20,10 +20,11 @@
   ];
 </script>
 
-<aside class="sidebar flex flex-col h-full flex-shrink-0 transition-all duration-300 ease-in-out relative z-20" class:sidebar-collapsed={isCollapsed}
-  style="background: var(--bg-canvas); border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 16px rgba(0,0,0,0.12);">
+<aside class="sidebar flex flex-col h-full flex-shrink-0 transition-all duration-300 ease-in-out relative"
+  style="background: var(--bg-canvas); border-right: 1px solid var(--border-subtle);"
+  class:sidebar-collapsed={isCollapsed}>
   <!-- Tab Icons -->
-  <div class="flex items-center px-2 py-2" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); backdrop-filter: blur(12px);" class:justify-center={isCollapsed} class:justify-between={!isCollapsed}>
+  <div class="flex items-center px-2 py-2" style="border-bottom: 1px solid var(--border-subtle);" class:justify-center={isCollapsed} class:justify-between={!isCollapsed}>
     {#if isCollapsed}
       <!-- Collapsed: Stack icons vertically -->
       <div class="flex flex-col items-center gap-2 w-full">
@@ -41,7 +42,7 @@
         {/each}
         <div class="w-8 h-px bg-gradient-to-r from-transparent via-vscode-border/50 to-transparent my-2"></div>
         <button
-          class="p-2.5 rounded-xl text-vscode-foreground/50 hover:text-vscode-foreground hover:bg-vscode-list-hover/50 transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)]"
+          class="p-2.5 rounded-xl text-vscode-foreground/50 hover:text-vscode-foreground hover:bg-vscode-list-hover/50 transition-all duration-300"
           title="Expand"
           on:click={() => isCollapsed = false}
         >
@@ -64,13 +65,13 @@
               {@html tab.icon}
             </svg>
             {#if activeTab === tab.id}
-              <div class="absolute bottom-0 left-0 w-full h-0.5" style="background: var(--api-primary); box-shadow: 0 -2px 8px rgba(var(--api-primary-rgb),0.6);"></div>
+              <div class="absolute bottom-0 left-0 w-full h-0.5" style="background: var(--api-primary);"></div>
             {/if}
           </button>
         {/each}
         <div class="w-px h-6 bg-vscode-border/30 mx-1"></div>
         <button
-          class="p-2 rounded-xl text-vscode-foreground/50 hover:text-vscode-foreground hover:bg-vscode-list-hover/50 transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)] flex-shrink-0"
+          class="p-2 rounded-xl text-vscode-foreground/50 hover:text-vscode-foreground hover:bg-vscode-list-hover/50 transition-all duration-300 flex-shrink-0"
           title="Collapse"
           on:click={() => isCollapsed = true}
         >

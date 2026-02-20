@@ -74,10 +74,10 @@
   $: testsStatus = getTestsStatus();
 </script>
 
-<div class="flex flex-col h-full bg-vscode-editor-background/30 backdrop-blur-xl">
+<div class="flex flex-col h-full">
   {#if $response}
     <!-- Status Bar -->
-    <div class="flex items-center justify-between px-4 py-2.5" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); backdrop-filter: blur(12px);">
+    <div class="flex items-center justify-between px-4 py-2.5" style="border-bottom: 1px solid var(--border-subtle);">
       <div class="flex items-center gap-3">
         <span class="method-badge {getStatusClass($response.status)} flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
@@ -113,7 +113,7 @@
   {/if}
 
   <!-- Tabs -->
-  <div class="flex items-center gap-0.5 px-2 pt-1" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); backdrop-filter: blur(8px);">
+  <div class="flex items-center gap-0.5 px-2 pt-1" style="border-bottom: 1px solid var(--border-subtle);">
     {#each tabs as tab}
       <button
         class="tab relative flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium {!$response && tab.id !== 'code' ? 'opacity-35 cursor-not-allowed' : ''} {$responseTab === tab.id ? 'tab-active' : ''}"
@@ -142,10 +142,8 @@
     {:else if !$response}
       <!-- No Response -->
       <div class="absolute inset-0 flex flex-col items-center justify-center animate-fade-in">
-        <div class="relative w-20 h-20 mb-5 flex items-center justify-center">
-          <div class="absolute inset-0 rounded-2xl rotate-6" style="background: linear-gradient(135deg, rgba(var(--api-primary-rgb),0.1), rgba(var(--api-purple-rgb),0.08)); border: 1px solid rgba(var(--api-primary-rgb),0.12);"></div>
-          <div class="absolute inset-0 rounded-2xl" style="background: linear-gradient(135deg, rgba(var(--api-primary-rgb),0.08), rgba(var(--api-purple-rgb),0.06)); border: 1px solid var(--border-subtle);"></div>
-          <svg class="w-9 h-9 relative z-10" style="color: rgba(var(--api-primary-rgb),0.5);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <div class="mb-5 flex items-center justify-center opacity-30">
+          <svg class="w-12 h-12" style="color: var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
           </svg>
         </div>
@@ -157,7 +155,7 @@
     {:else if $responseTab === 'headers'}
       <ResponseHeaders headers={$response.headers} />
     {:else if $responseTab === 'cookies'}
-      <div class="h-full overflow-auto bg-vscode-editor-background/30">
+      <div class="h-full overflow-auto">
         {#if cookies.length === 0}
           <div class="flex flex-col items-center justify-center h-full text-vscode-foreground/40">
             <svg class="w-12 h-12 mb-4 opacity-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -168,7 +166,7 @@
         {:else}
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="border-b border-vscode-border/30 bg-vscode-sidebar-bg/40 backdrop-blur-md">
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
                 <th class="px-6 py-3 text-xs font-semibold text-vscode-foreground/70 uppercase tracking-wider">Name</th>
                 <th class="px-6 py-3 text-xs font-semibold text-vscode-foreground/70 uppercase tracking-wider">Value</th>
                 <th class="px-6 py-3 text-xs font-semibold text-vscode-foreground/70 uppercase tracking-wider">Attributes</th>

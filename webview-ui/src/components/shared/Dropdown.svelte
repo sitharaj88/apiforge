@@ -99,7 +99,8 @@
   <!-- Menu -->
   {#if open}
     <div
-      class="absolute z-50 min-w-[160px] py-1.5 bg-vscode-editor-background/90 backdrop-blur-xl border border-vscode-border/30 rounded-lg shadow-2xl ring-1 ring-white/5 {positionClasses[position]} transition-all duration-200 origin-top"
+      class="absolute z-50 min-w-[160px] py-1 rounded-lg {positionClasses[position]}"
+      style="background: var(--vscode-editor-background); border: 1px solid var(--vscode-panel-border, var(--border-default)); box-shadow: 0 6px 20px rgba(0,0,0,0.25);"
     >
       {#each items as item (item.id)}
         {#if item.divider}

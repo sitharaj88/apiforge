@@ -221,10 +221,10 @@
 
 <main class="h-screen flex flex-col overflow-hidden bg-vscode-background text-vscode-foreground">
   <!-- Header -->
-  <header class="flex items-center justify-between px-5 py-2.5 border-b border-white/[0.06] bg-vscode-editor-background/60 backdrop-blur-2xl sticky top-0 z-10" style="box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.18);">
+  <header class="flex items-center justify-between px-5 py-2.5 flex-shrink-0" style="border-bottom: 1px solid var(--border-subtle);">
     <div class="flex items-center gap-2.5">
       <!-- Logo mark -->
-      <div class="relative w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background: var(--grad-primary); box-shadow: 0 0 16px rgba(var(--api-primary-rgb),0.4), inset 0 1px 0 rgba(255,255,255,0.2);">
+      <div class="relative w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background: var(--grad-primary);">
         <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
           <path d="M13 3L4 14h7v7l9-11h-7z" />
         </svg>
@@ -401,9 +401,12 @@
     <!-- Request/Response Panels -->
     <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
       <!-- Request Panel -->
-      <div class="flex-1 flex flex-col min-h-0 lg:min-w-[400px] lg:max-w-[60%] border-b lg:border-b-0 lg:border-r" style="border-color: var(--border-subtle);">
+      <div class="flex-1 flex flex-col min-h-0 lg:min-w-[400px] lg:max-w-[60%]">
         <RequestBuilder on:save={handleSaveRequest} />
       </div>
+
+      <!-- Vertical Divider -->
+      <div class="hidden lg:block w-px flex-shrink-0" style="background: var(--vscode-panel-border, var(--vscode-editorGroup-border, rgba(128,128,128,0.35)));"></div>
 
       <!-- Response Panel -->
       <div class="flex-1 flex flex-col min-h-0 lg:min-w-[400px]">
@@ -412,9 +415,8 @@
             <div class="flex flex-col items-center gap-4 animate-fade-in">
               <!-- Animated spinner with glow -->
               <div class="relative w-12 h-12">
-                <div class="absolute inset-0 rounded-full animate-spin" style="border: 2px solid var(--border-default); border-top-color: var(--api-primary); box-shadow: 0 0 16px rgba(var(--api-primary-rgb),0.3);"></div>
+                <div class="absolute inset-0 rounded-full animate-spin" style="border: 2px solid var(--border-default); border-top-color: var(--api-primary);"></div>
                 <div class="absolute inset-2 rounded-full animate-spin" style="border: 2px solid transparent; border-top-color: var(--api-purple); animation-direction: reverse; animation-duration: 0.7s;"></div>
-                <div class="absolute inset-0 rounded-full" style="background: radial-gradient(circle, rgba(var(--api-primary-rgb),0.08), transparent 70%);"></div>
               </div>
               <div class="flex flex-col items-center gap-1">
                 <span class="text-sm font-medium" style="color:var(--text-primary);">Sending request</span>
@@ -490,10 +492,9 @@
 
   /* Environment Selector Styles */
   .env-selector {
-    background: var(--bg-glass);
+    background: transparent;
     border: 1px solid var(--border-default);
     color: var(--text-secondary);
-    backdrop-filter: blur(8px);
   }
 
   .env-selector:hover {
@@ -503,11 +504,10 @@
   }
 
   .env-selector.env-active {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+    background: rgba(16, 185, 129, 0.1);
     border-color: rgba(16, 185, 129, 0.3);
     color: #34d399;
     font-weight: 600;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
   }
 
   .env-selector.env-active:hover {
@@ -517,10 +517,9 @@
   }
 
   .env-dropdown {
-    background: var(--bg-elevated);
+    background: var(--vscode-editor-background);
     border: 1px solid var(--border-default);
-    box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-md);
   }
 
   .env-option {
@@ -545,49 +544,40 @@
 
   /* Header Button Styles */
   .header-btn {
-    background: var(--bg-glass);
+    background: transparent;
     border: 1px solid var(--border-default);
     color: var(--text-secondary);
-    backdrop-filter: blur(8px);
   }
 
   .header-btn:hover {
     background: var(--bg-hover);
     border-color: var(--border-strong);
     color: var(--text-primary);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
   }
 
   .save-btn {
-    background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(5,150,105,0.12));
-    border: 1px solid rgba(16,185,129,0.3);
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.28);
     color: #34d399;
     font-weight: 600;
-    box-shadow: 0 0 12px rgba(16,185,129,0.15);
     transition: all 200ms var(--ease-smooth);
   }
 
   .save-btn:hover {
-    background: linear-gradient(135deg, rgba(16,185,129,0.26), rgba(5,150,105,0.18));
-    border-color: rgba(16,185,129,0.45);
-    box-shadow: 0 0 20px rgba(16,185,129,0.28);
-    transform: translateY(-1px);
+    background: rgba(16,185,129,0.16);
+    border-color: rgba(16,185,129,0.4);
   }
 
   .test-btn {
-    background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(217,119,6,0.12));
-    border: 1px solid rgba(245,158,11,0.3);
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.28);
     color: #fbbf24;
     font-weight: 600;
-    box-shadow: 0 0 12px rgba(245,158,11,0.15);
     transition: all 200ms var(--ease-smooth);
   }
 
   .test-btn:hover {
-    background: linear-gradient(135deg, rgba(245,158,11,0.26), rgba(217,119,6,0.18));
-    border-color: rgba(245,158,11,0.45);
-    box-shadow: 0 0 20px rgba(245,158,11,0.28);
-    transform: translateY(-1px);
+    background: rgba(245,158,11,0.16);
+    border-color: rgba(245,158,11,0.4);
   }
 </style>

@@ -71,13 +71,13 @@
   --border-glow:     rgba(var(--api-primary-rgb), 0.35);
 
   /* ——— Shadows ——— */
-  --shadow-xs:     0 1px 2px rgba(0,0,0,0.18);
-  --shadow-sm:     0 2px 4px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.14);
-  --shadow-md:     0 4px 12px rgba(0,0,0,0.28), 0 2px 6px rgba(0,0,0,0.18);
-  --shadow-lg:     0 12px 28px rgba(0,0,0,0.36), 0 6px 12px rgba(0,0,0,0.22);
-  --shadow-xl:     0 24px 48px rgba(0,0,0,0.44), 0 12px 24px rgba(0,0,0,0.28);
-  --shadow-glow:   0 0 20px -4px rgba(var(--api-primary-rgb), 0.45);
-  --shadow-glow-sm:0 0 12px -3px rgba(var(--api-primary-rgb), 0.35);
+  --shadow-xs:     0 1px 2px rgba(0,0,0,0.12);
+  --shadow-sm:     0 2px 6px rgba(0,0,0,0.16);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.2);
+  --shadow-lg:     0 8px 24px rgba(0,0,0,0.24);
+  --shadow-xl:     0 16px 40px rgba(0,0,0,0.3);
+  --shadow-glow:   0 0 16px -4px rgba(var(--api-primary-rgb), 0.28);
+  --shadow-glow-sm:0 0 10px -3px rgba(var(--api-primary-rgb), 0.2);
 
   /* ——— Gradients (reusable) ——— */
   --grad-primary:    linear-gradient(135deg, var(--api-primary), var(--api-purple));
@@ -114,10 +114,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--vscode-editor-background);
-  background-image:
-    radial-gradient(ellipse 80% 40% at 80% -10%, rgba(var(--api-primary-rgb), 0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 60% at 0% 100%, rgba(var(--api-purple-rgb), 0.05) 0%, transparent 50%);
-  background-attachment: fixed;
 }
 
 /* ——— Scrollbars ——— */
@@ -155,17 +151,8 @@ body {
   .btn {
     @apply inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium select-none;
     transition: all var(--duration-base) var(--ease-smooth);
-    backdrop-filter: blur(8px);
     position: relative;
     overflow: hidden;
-  }
-
-  .btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
-    pointer-events: none;
   }
 
   .btn:disabled {
@@ -177,22 +164,18 @@ body {
   .btn-primary {
     background: var(--grad-primary);
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: var(--shadow-sm), 0 0 0 0 rgba(var(--api-primary-rgb), 0);
+    border: 1px solid rgba(255,255,255,0.1);
     font-weight: 600;
     letter-spacing: 0.01em;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
   }
 
   .btn-primary:hover:not(:disabled) {
     background: linear-gradient(135deg, var(--api-primary-hover), var(--api-purple-hover));
-    box-shadow: var(--shadow-md), var(--shadow-glow);
-    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm), 0 0 10px -3px rgba(var(--api-primary-rgb), 0.3);
   }
 
   .btn-primary:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
+    box-shadow: none;
   }
 
   .btn-secondary {
@@ -205,8 +188,6 @@ body {
     background: var(--bg-hover);
     border-color: var(--border-strong);
     color: var(--text-primary);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
   }
 
   .btn-ghost {
@@ -228,10 +209,8 @@ body {
   }
 
   .btn-danger:hover:not(:disabled) {
-    background: linear-gradient(135deg, rgba(var(--api-error-rgb), 0.25), rgba(var(--api-pink-rgb), 0.15));
-    border-color: rgba(var(--api-error-rgb), 0.4);
-    box-shadow: 0 0 16px -4px rgba(var(--api-error-rgb), 0.4);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, rgba(var(--api-error-rgb), 0.22), rgba(var(--api-pink-rgb), 0.12));
+    border-color: rgba(var(--api-error-rgb), 0.35);
   }
 
   .btn-icon {
@@ -246,21 +225,19 @@ body {
     background: var(--bg-hover);
     color: var(--text-primary);
     border-color: var(--border-subtle);
-    transform: scale(1.06);
   }
 
   .btn-icon:active {
-    transform: scale(0.96);
+    opacity: 0.7;
   }
 
   /* ——— Inputs ——— */
   .input {
     @apply w-full px-3 py-2 rounded-lg text-sm;
-    background: var(--bg-glass);
+    background: var(--bg-glass-md);
     color: var(--text-primary);
     border: 1px solid var(--border-default);
-    backdrop-filter: blur(8px);
-    transition: all var(--duration-base) var(--ease-smooth);
+    transition: border-color var(--duration-base) var(--ease-smooth), box-shadow var(--duration-base) var(--ease-smooth);
     caret-color: var(--api-primary);
   }
 
@@ -268,31 +245,28 @@ body {
 
   .input:hover:not(:focus) {
     border-color: var(--border-strong);
-    background: var(--bg-glass-md);
   }
 
   .input:focus {
     outline: none;
-    border-color: rgba(var(--api-primary-rgb), 0.6);
-    background: var(--bg-elevated);
-    box-shadow: 0 0 0 3px rgba(var(--api-primary-rgb), 0.12), var(--shadow-xs);
+    border-color: rgba(var(--api-primary-rgb), 0.55);
+    box-shadow: 0 0 0 3px rgba(var(--api-primary-rgb), 0.1);
   }
 
   .select {
     @apply px-3 py-2 rounded-lg text-sm cursor-pointer;
-    background: var(--bg-glass);
+    background: var(--bg-glass-md);
     color: var(--text-primary);
     border: 1px solid var(--border-default);
-    backdrop-filter: blur(8px);
-    transition: all var(--duration-base) var(--ease-smooth);
+    transition: border-color var(--duration-base) var(--ease-smooth);
   }
 
-  .select:hover { border-color: var(--border-strong); background: var(--bg-glass-md); }
+  .select:hover { border-color: var(--border-strong); }
 
   .select:focus {
     outline: none;
-    border-color: rgba(var(--api-primary-rgb), 0.6);
-    box-shadow: 0 0 0 3px rgba(var(--api-primary-rgb), 0.12);
+    border-color: rgba(var(--api-primary-rgb), 0.55);
+    box-shadow: 0 0 0 3px rgba(var(--api-primary-rgb), 0.1);
   }
 
   /* ——— Panels / Cards ——— */
@@ -300,24 +274,17 @@ body {
     background: var(--bg-subtle);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
-    backdrop-filter: blur(16px);
-    box-shadow: var(--shadow-sm);
   }
 
   .card {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-sm);
-    backdrop-filter: blur(16px);
-    transition: all var(--duration-slow) var(--ease-smooth);
+    transition: border-color var(--duration-slow) var(--ease-smooth);
   }
 
   .card:hover {
     border-color: var(--border-strong);
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
   }
 
   /* Surface with inset highlight */
@@ -354,9 +321,8 @@ body {
     left: 8px;
     right: 8px;
     height: 2px;
-    background: var(--grad-primary);
+    background: var(--api-primary);
     border-radius: var(--radius-full);
-    box-shadow: 0 -2px 10px rgba(var(--api-primary-rgb), 0.6);
   }
 
   /* ——— Badges ——— */
@@ -415,7 +381,6 @@ body {
     border-bottom: 1px solid var(--border-subtle);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    background: var(--bg-glass);
   }
 
   .kv-table td {

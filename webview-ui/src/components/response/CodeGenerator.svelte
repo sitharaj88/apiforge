@@ -88,19 +88,20 @@
 
 <svelte:window on:click={handleClickOutside} />
 
-<div class="flex flex-col h-full bg-vscode-editor-background/30 backdrop-blur-md">
+<div class="flex flex-col h-full" style="background: var(--vscode-editor-background);">
   <!-- Modern Toolbar -->
-  <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/80 backdrop-blur-xl shadow-sm">
+  <div class="flex items-center justify-between px-4 py-2.5" style="border-bottom: 1px solid var(--border-subtle);">
     <!-- Language Selector Dropdown -->
     <div class="language-dropdown relative">
       <button
-        class="flex items-center gap-2 px-3 py-2 rounded-lg bg-vscode-editor-background/50 border border-vscode-border/30 hover:border-api-primary/50 hover:bg-vscode-editor-background/80 transition-all duration-200 shadow-inner"
+        class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200"
+        style="background: var(--bg-glass-md); border: 1px solid var(--border-default); color: var(--text-primary);"
         on:click|stopPropagation={() => showDropdown = !showDropdown}
       >
         <span class="text-base">{selectedLang?.icon}</span>
         <div class="text-left">
-          <div class="text-sm font-medium text-vscode-foreground/90">{selectedLang?.name}</div>
-          <div class="text-[10px] font-semibold text-vscode-foreground/50 uppercase tracking-wider">{selectedLang?.category}</div>
+          <div class="text-sm font-medium" style="color: var(--text-primary);">{selectedLang?.name}</div>
+          <div class="text-[10px] font-semibold uppercase tracking-wider" style="color: var(--text-muted);">{selectedLang?.category}</div>
         </div>
         <svg class="w-4 h-4 ml-2 text-vscode-foreground/40 transition-transform duration-200 {showDropdown ? 'rotate-180' : ''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -108,14 +109,17 @@
       </button>
 
       {#if showDropdown}
-        <div class="dropdown-menu absolute top-full left-0 mt-2 w-80 max-h-96 overflow-auto rounded-xl z-50 border border-vscode-border/30 bg-vscode-editor-background/90 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        <div class="dropdown-menu absolute top-full left-0 mt-1 w-72 max-h-80 overflow-auto rounded-lg z-50" style="background: var(--vscode-editor-background); border: 1px solid var(--vscode-panel-border, var(--border-default)); box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
           {#each categories as category}
-            <div class="dropdown-header px-4 py-2 text-[10px] font-bold text-vscode-foreground/50 uppercase tracking-wider sticky top-0 border-b border-vscode-border/20 bg-vscode-editor-background/95 backdrop-blur-md z-10">
+            <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider sticky top-0 z-10" style="color: var(--text-muted); background: var(--vscode-editor-background); border-bottom: 1px solid var(--border-subtle);">
               {category}
             </div>
             {#each languages.filter(l => l.category === category) as lang}
               <button
-                class="flex items-center gap-3 w-full px-4 py-2.5 text-left transition-all duration-150 {selectedLanguage === lang.id ? 'bg-api-primary/10 text-api-primary' : 'hover:bg-vscode-editor-background/60 text-vscode-foreground/80 hover:text-vscode-foreground'}"
+                class="flex items-center gap-3 w-full px-3 py-2 text-left transition-colors duration-100"
+                style="{selectedLanguage === lang.id ? 'background: rgba(var(--api-primary-rgb),0.1); color: var(--api-primary);' : 'color: var(--text-secondary);'}"
+                on:mouseenter={e => { if (selectedLanguage !== lang.id) (e.currentTarget as HTMLElement).style.background = 'var(--bg-hover)'; }}
+                on:mouseleave={e => { if (selectedLanguage !== lang.id) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                 on:click={() => handleLanguageChange(lang.id)}
               >
                 <span class="text-lg w-6 text-center">{lang.icon}</span>
@@ -135,7 +139,8 @@
     <!-- Action Buttons -->
     <div class="flex items-center gap-2">
       <button
-        class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 {copied ? 'bg-green-500/20 text-green-400 border border-green-500/30 shadow-[0_0_10px_rgba(74,222,128,0.2)]' : 'bg-vscode-editor-background/50 text-vscode-foreground/70 hover:text-vscode-foreground hover:bg-vscode-editor-background/80 border border-vscode-border/30 shadow-inner'}"
+        class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 {copied ? '' : ''}"
+        style="{copied ? 'background: rgba(var(--api-success-rgb),0.12); color: var(--api-success); border: 1px solid rgba(var(--api-success-rgb),0.25);' : 'background: var(--bg-glass-md); border: 1px solid var(--border-default); color: var(--text-secondary);'}"
         on:click={copyCode}
         title="Copy to clipboard"
       >
@@ -152,7 +157,8 @@
         {/if}
       </button>
       <button
-        class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-vscode-editor-background/50 text-vscode-foreground/70 hover:text-vscode-foreground hover:bg-vscode-editor-background/80 border border-vscode-border/30 shadow-inner transition-all duration-200"
+        class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200"
+        style="background: var(--bg-glass-md); border: 1px solid var(--border-default); color: var(--text-secondary);"
         on:click={downloadCode}
         title="Download as file"
       >
@@ -165,11 +171,11 @@
   </div>
 
   <!-- Code Display with Line Numbers -->
-  <div class="flex-1 overflow-auto bg-vscode-editor-background/20">
+  <div class="flex-1 overflow-auto" style="background: var(--vscode-editor-background);">
     {#if code}
       <div class="flex text-sm font-mono min-h-full">
         <!-- Line Numbers -->
-        <div class="flex-shrink-0 py-4 pr-4 pl-4 text-right select-none border-r border-vscode-border/20 bg-vscode-editor-background/30" style="min-width: 3.5rem;">
+        <div class="flex-shrink-0 py-4 pr-4 pl-4 text-right select-none" style="min-width: 3.5rem; border-right: 1px solid var(--border-subtle); background: var(--vscode-sideBar-background, var(--vscode-editor-background));">
           {#each code.split('\n') as _, i}
             <div class="text-vscode-foreground/30 leading-relaxed text-xs">{i + 1}</div>
           {/each}
@@ -178,14 +184,12 @@
         <pre class="flex-1 p-4 text-vscode-foreground/90 whitespace-pre-wrap leading-relaxed overflow-x-auto text-xs">{code}</pre>
       </div>
     {:else}
-      <div class="flex flex-col items-center justify-center h-full text-vscode-foreground/40">
-        <div class="w-16 h-16 mb-4 rounded-full bg-vscode-editor-background/50 border border-vscode-border/30 flex items-center justify-center shadow-inner">
-          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <div class="flex flex-col items-center justify-center h-full" style="color: var(--text-muted);">
+        <svg class="w-10 h-10 mb-3 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
           </svg>
-        </div>
-        <p class="text-sm font-medium text-vscode-foreground/60">No code generated yet</p>
-        <p class="text-xs mt-1">Configure a request to generate code</p>
+          <p class="text-sm font-medium">No code generated yet</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">Configure a request to generate code</p>
       </div>
     {/if}
   </div>
