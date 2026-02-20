@@ -20,24 +20,23 @@
   ];
 </script>
 
-<aside class="sidebar flex flex-col h-full bg-vscode-sidebar-bg/40 backdrop-blur-xl border-r border-vscode-border/30 flex-shrink-0 transition-all duration-300 ease-in-out shadow-[4px_0_24px_rgba(0,0,0,0.1)] relative z-20" class:sidebar-collapsed={isCollapsed}>
+<aside class="sidebar flex flex-col h-full flex-shrink-0 transition-all duration-300 ease-in-out relative z-20" class:sidebar-collapsed={isCollapsed}
+  style="background: var(--bg-canvas); border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 16px rgba(0,0,0,0.12);">
   <!-- Tab Icons -->
-  <div class="flex items-center px-2 py-2 border-b border-vscode-border/30 bg-vscode-editor-background/30 backdrop-blur-md" class:justify-center={isCollapsed} class:justify-between={!isCollapsed}>
+  <div class="flex items-center px-2 py-2" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); backdrop-filter: blur(12px);" class:justify-center={isCollapsed} class:justify-between={!isCollapsed}>
     {#if isCollapsed}
       <!-- Collapsed: Stack icons vertically -->
       <div class="flex flex-col items-center gap-2 w-full">
         {#each tabs as tab}
           <button
-            class="p-2.5 rounded-xl transition-all duration-300 relative group {activeTab === tab.id ? 'bg-blue-500/15 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)] ring-1 ring-blue-500/30' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-list-hover/50'}"
+            class="p-2.5 rounded-xl transition-all duration-200 relative {activeTab === tab.id ? 'ring-1' : ''}"
+            style="{activeTab === tab.id ? 'background: rgba(var(--api-primary-rgb),0.12); color: var(--api-primary); ring-color: rgba(var(--api-primary-rgb),0.25);' : 'color: var(--text-muted);'}"
             title={tab.label}
             on:click={() => { activeTab = tab.id; isCollapsed = false; }}
           >
-            <svg class="w-5 h-5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-5 h-5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
               {@html tab.icon}
             </svg>
-            {#if activeTab === tab.id}
-              <div class="absolute inset-0 bg-blue-500/20 blur-md rounded-xl opacity-50"></div>
-            {/if}
           </button>
         {/each}
         <div class="w-8 h-px bg-gradient-to-r from-transparent via-vscode-border/50 to-transparent my-2"></div>
@@ -56,16 +55,16 @@
       <div class="flex items-center gap-1.5 w-full">
         {#each tabs as tab}
           <button
-            class="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl transition-all duration-300 relative group overflow-hidden {activeTab === tab.id ? 'bg-blue-500/15 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)] ring-1 ring-blue-500/30' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-list-hover/50'}"
+            class="flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg transition-all duration-200 relative overflow-hidden {activeTab === tab.id ? 'ring-1' : ''}"
+            style="{activeTab === tab.id ? 'background: rgba(var(--api-primary-rgb),0.1); color: var(--api-primary); ring-color: rgba(var(--api-primary-rgb),0.2);' : 'color: var(--text-muted);'}"
             title={tab.label}
             on:click={() => { activeTab = tab.id; }}
           >
-            <svg class="w-4 h-4 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-4 h-4 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
               {@html tab.icon}
             </svg>
             {#if activeTab === tab.id}
-              <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-50"></div>
-              <div class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 shadow-[0_-2px_8px_rgba(59,130,246,0.8)]"></div>
+              <div class="absolute bottom-0 left-0 w-full h-0.5" style="background: var(--api-primary); box-shadow: 0 -2px 8px rgba(var(--api-primary-rgb),0.6);"></div>
             {/if}
           </button>
         {/each}
@@ -119,12 +118,10 @@
   .sidebar {
     width: 260px;
     min-width: 260px;
-    background: var(--vscode-sideBar-background, var(--vscode-editor-background));
-    border-color: var(--border-subtle);
   }
 
   .sidebar-collapsed {
-    width: 48px;
-    min-width: 48px;
+    width: 52px;
+    min-width: 52px;
   }
 </style>

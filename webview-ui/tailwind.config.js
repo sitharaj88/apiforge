@@ -4,79 +4,130 @@ export default {
   theme: {
     extend: {
       colors: {
-        // VS Code theme colors mapped to Tailwind
-        'vscode-foreground': 'var(--vscode-foreground)',
-        'vscode-background': 'var(--vscode-editor-background)',
-        'vscode-sidebar-bg': 'var(--vscode-sideBar-background)',
-        'vscode-panel-bg': 'var(--vscode-panel-background)',
-
-        // Button colors
-        'vscode-button-bg': 'var(--vscode-button-background)',
-        'vscode-button-fg': 'var(--vscode-button-foreground)',
-        'vscode-button-hover': 'var(--vscode-button-hoverBackground)',
+        // ——— VS Code Theme Colors ———
+        'vscode-foreground':    'var(--vscode-foreground)',
+        'vscode-background':    'var(--vscode-editor-background)',
+        'vscode-editor-background': 'var(--vscode-editor-background)',
+        'vscode-sidebar-bg':    'var(--vscode-sideBar-background)',
+        'vscode-panel-bg':      'var(--vscode-panel-background)',
+        'vscode-button-bg':     'var(--vscode-button-background)',
+        'vscode-button-fg':     'var(--vscode-button-foreground)',
+        'vscode-button-hover':  'var(--vscode-button-hoverBackground)',
         'vscode-button-secondary-bg': 'var(--vscode-button-secondaryBackground)',
         'vscode-button-secondary-fg': 'var(--vscode-button-secondaryForeground)',
-
-        // Input colors
-        'vscode-input-bg': 'var(--vscode-input-background)',
-        'vscode-input-fg': 'var(--vscode-input-foreground)',
-        'vscode-input-border': 'var(--vscode-input-border)',
-        'vscode-input-placeholder': 'var(--vscode-input-placeholderForeground)',
-
-        // Focus and selection
-        'vscode-focus-border': 'var(--vscode-focusBorder)',
-        'vscode-selection-bg': 'var(--vscode-editor-selectionBackground)',
-
-        // Status colors
-        'vscode-error': 'var(--vscode-errorForeground)',
-        'vscode-warning': 'var(--vscode-editorWarning-foreground)',
-        'vscode-info': 'var(--vscode-editorInfo-foreground)',
-
-        // List colors
-        'vscode-list-hover': 'var(--vscode-list-hoverBackground)',
-        'vscode-list-active': 'var(--vscode-list-activeSelectionBackground)',
-        'vscode-list-active-fg': 'var(--vscode-list-activeSelectionForeground)',
-
-        // Border colors
-        'vscode-border': 'var(--vscode-panel-border)',
-        'vscode-divider': 'var(--vscode-settings-headerForeground)',
-
-        // Badge colors
-        'vscode-badge-bg': 'var(--vscode-badge-background)',
-        'vscode-badge-fg': 'var(--vscode-badge-foreground)',
-
-        // Link colors
-        'vscode-link': 'var(--vscode-textLink-foreground)',
-        'vscode-link-hover': 'var(--vscode-textLink-activeForeground)',
-
-        // Dropdown colors
-        'vscode-dropdown-bg': 'var(--vscode-dropdown-background)',
-        'vscode-dropdown-fg': 'var(--vscode-dropdown-foreground)',
+        'vscode-input-bg':        'var(--vscode-input-background)',
+        'vscode-input-fg':        'var(--vscode-input-foreground)',
+        'vscode-input-border':    'var(--vscode-input-border)',
+        'vscode-input-placeholder':'var(--vscode-input-placeholderForeground)',
+        'vscode-focus-border':    'var(--vscode-focusBorder)',
+        'vscode-selection-bg':    'var(--vscode-editor-selectionBackground)',
+        'vscode-error':           'var(--vscode-errorForeground)',
+        'vscode-warning':         'var(--vscode-editorWarning-foreground)',
+        'vscode-info':            'var(--vscode-editorInfo-foreground)',
+        'vscode-list-hover':      'var(--vscode-list-hoverBackground)',
+        'vscode-list-active':     'var(--vscode-list-activeSelectionBackground)',
+        'vscode-list-active-fg':  'var(--vscode-list-activeSelectionForeground)',
+        'vscode-border':          'var(--vscode-panel-border)',
+        'vscode-badge-bg':        'var(--vscode-badge-background)',
+        'vscode-badge-fg':        'var(--vscode-badge-foreground)',
+        'vscode-link':            'var(--vscode-textLink-foreground)',
+        'vscode-link-hover':      'var(--vscode-textLink-activeForeground)',
+        'vscode-dropdown-bg':     'var(--vscode-dropdown-background)',
+        'vscode-dropdown-fg':     'var(--vscode-dropdown-foreground)',
         'vscode-dropdown-border': 'var(--vscode-dropdown-border)',
 
-        // HTTP Method colors
-        'method-get': '#61affe',
-        'method-post': '#49cc90',
-        'method-put': '#fca130',
-        'method-patch': '#50e3c2',
-        'method-delete': '#f93e3e',
-        'method-head': '#9012fe',
-        'method-options': '#0d5aa7',
+        // ——— Nebula Brand Colors ———
+        'api-primary':   'var(--api-primary)',
+        'api-purple':    'var(--api-purple)',
+        'api-success':   'var(--api-success)',
+        'api-warning':   'var(--api-warning)',
+        'api-error':     'var(--api-error)',
+        'api-info':      'var(--api-info)',
+        'api-cyan':      'var(--api-cyan)',
+        'api-pink':      'var(--api-pink)',
+
+        // ——— Semantic Surface Tokens ———
+        'surface-glass':   'var(--bg-glass)',
+        'surface-raised':  'var(--bg-elevated)',
+        'surface-subtle':  'var(--bg-subtle)',
+        'border-subtle':   'var(--border-subtle)',
+        'border-default':  'var(--border-default)',
+        'border-strong':   'var(--border-strong)',
+
+        // ——— HTTP Method Colors ———
+        'method-get':     '#61affe',
+        'method-post':    '#49cc90',
+        'method-put':     '#fca130',
+        'method-patch':   '#50e3c2',
+        'method-delete':  '#f43f5e',
+        'method-head':    '#a855f7',
+        'method-options': '#38bdf8',
       },
       fontFamily: {
-        'vscode': 'var(--vscode-font-family)',
-        'vscode-editor': 'var(--vscode-editor-font-family)',
+        'vscode':        ['var(--vscode-font-family)', 'Inter', 'system-ui', 'sans-serif'],
+        'vscode-editor': ['var(--vscode-editor-font-family)', 'JetBrains Mono', 'Fira Code', 'monospace'],
+        'mono':          ['var(--vscode-editor-font-family)', 'JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
       },
       fontSize: {
-        'vscode': 'var(--vscode-font-size)',
+        'vscode':        'var(--vscode-font-size)',
         'vscode-editor': 'var(--vscode-editor-font-size)',
+        '2xs': ['10px', { lineHeight: '14px' }],
       },
       borderRadius: {
         'vscode': '2px',
+        'xs':  'var(--radius-xs)',
+        'sm':  'var(--radius-sm)',
+        'md':  'var(--radius-md)',
+        'lg':  'var(--radius-lg)',
+        'xl':  'var(--radius-xl)',
+        '2xl': 'var(--radius-2xl)',
+      },
+      spacing: {
+        '4.5': '1.125rem',
+        '5.5': '1.375rem',
+        '13':  '3.25rem',
+        '15':  '3.75rem',
+        '18':  '4.5rem',
+      },
+      boxShadow: {
+        'xs':      'var(--shadow-xs)',
+        'sm':      'var(--shadow-sm)',
+        'md':      'var(--shadow-md)',
+        'lg':      'var(--shadow-lg)',
+        'xl':      'var(--shadow-xl)',
+        'glow':    'var(--shadow-glow)',
+        'glow-sm': 'var(--shadow-glow-sm)',
+        'inner-highlight': 'inset 0 1px 0 rgba(255,255,255,0.08)',
+      },
+      transitionTimingFunction: {
+        'spring': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      transitionDuration: {
+        '80':  '80ms',
+        '120': '120ms',
+        '350': '350ms',
+        '500': '500ms',
       },
       animation: {
-        'spin-fast': 'spin 0.5s linear infinite',
-        'pulse-subtle': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin-fast':     'spin 0.5s linear infinite',
+        'pulse-subtle':  'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-glow':    'pulse-glow 2s ease-in-out infinite',
+        'float':         'float 3s ease-in-out infinite',
+        'slide-up':      'slide-up 200ms cubic-bezier(0, 0, 0.2, 1) both',
+        'slide-down':    'slide-down 200ms cubic-bezier(0, 0, 0.2, 1) both',
+        'fade-in':       'fade-in 200ms cubic-bezier(0, 0, 0.2, 1) both',
+        'scale-in':      'scale-in 200ms cubic-bezier(0.34, 1.56, 0.64, 1) both',
+        'shimmer':       'shimmer 1.5s infinite',
+      },
+      backdropBlur: {
+        'xs':  '2px',
+        'sm':  '4px',
+        'md':  '8px',
+        'lg':  '12px',
+        'xl':  '16px',
+        '2xl': '24px',
+        '3xl': '40px',
       },
     },
   },

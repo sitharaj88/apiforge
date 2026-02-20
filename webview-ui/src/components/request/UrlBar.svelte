@@ -48,13 +48,14 @@
   }
 </script>
 
-<div class="flex flex-col gap-3 p-4 bg-vscode-editor-background/30 backdrop-blur-md border border-vscode-border/30 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+<div class="flex flex-col gap-3 p-4 rounded-xl" style="background: var(--bg-glass); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.04); backdrop-filter: blur(16px);">
   <!-- Request Name -->
   <div class="flex items-center gap-2">
     {#if isEditingName}
       <input
         type="text"
-        class="text-sm font-medium bg-vscode-editor-background/50 border border-api-primary/50 rounded-md text-vscode-foreground outline-none py-1 px-2 min-w-[200px] shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.2)] focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
+        class="text-sm font-medium rounded-md outline-none py-1 px-2 min-w-[200px] transition-all duration-200"
+        style="background: var(--bg-glass-md); border: 1px solid rgba(var(--api-primary-rgb),0.45); color: var(--text-primary); box-shadow: 0 0 12px rgba(var(--api-primary-rgb),0.15);"
         bind:this={nameInput}
         bind:value={$activeRequest.name}
         on:blur={finishEditingName}
@@ -83,7 +84,8 @@
   <div class="flex items-center gap-3">
   <!-- Method Selector -->
   <select
-    class="select font-bold min-w-[110px] text-center shadow-sm bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200 {getMethodClass($activeRequest.method)}"
+    class="select font-bold min-w-[110px] text-center {getMethodClass($activeRequest.method)}"
+    style="background: var(--bg-glass-md); backdrop-filter: blur(8px); border-color: var(--border-default); font-size: 12px; letter-spacing: 0.04em;"
     bind:value={$activeRequest.method}
   >
     {#each methods as method}
@@ -93,11 +95,12 @@
 
   <!-- URL Input -->
   <div class="flex-1 relative group">
-    <div class="absolute inset-0 bg-gradient-to-r from-api-primary/20 to-api-purple/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <div class="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: radial-gradient(ellipse at 30% 50%, rgba(var(--api-primary-rgb),0.06), transparent 60%);"></div>
     <input
       type="text"
-      class="input pr-10 font-mono relative z-10 shadow-sm bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
-      placeholder="Enter request URL (e.g., https://api.example.com/users)"
+      class="input pr-10 font-mono relative z-10"
+      style="background: var(--bg-glass-md); font-size: 12.5px; letter-spacing: 0.01em;"
+      placeholder="Enter request URL..."
       bind:value={$activeRequest.url}
       on:keydown={handleKeyDown}
     />
@@ -127,17 +130,17 @@
     </button>
   {:else}
     <button
-      class="btn btn-primary min-w-[100px] shadow-[0_0_15px_rgba(var(--api-primary-rgb),0.3)] relative overflow-hidden group border border-api-primary/50 hover:shadow-[0_0_25px_rgba(var(--api-primary-rgb),0.5)] transition-all duration-300"
+      class="btn btn-primary min-w-[100px] relative overflow-hidden group"
+      style="min-width: 88px; box-shadow: var(--shadow-glow-sm), var(--shadow-sm);"
       on:click={sendRequest}
       disabled={!$activeRequest.url}
     >
-      <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></div>
-      <div class="relative flex items-center justify-center drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
-        <svg class="w-4 h-4 mr-1.5 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 12h15" />
-        </svg>
-        Send
-      </div>
+      <!-- Shine sweep on hover -->
+      <span class="absolute inset-0 translate-x-[-110%] group-hover:translate-x-[110%] transition-transform duration-700 ease-in-out" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);"></span>
+      <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-150" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+      </svg>
+      Send
     </button>
   {/if}
   </div>

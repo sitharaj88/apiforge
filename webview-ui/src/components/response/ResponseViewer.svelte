@@ -77,34 +77,34 @@
 <div class="flex flex-col h-full bg-vscode-editor-background/30 backdrop-blur-xl">
   {#if $response}
     <!-- Status Bar -->
-    <div class="flex items-center justify-between px-6 py-3 border-b border-vscode-border/30 bg-vscode-sidebar-bg/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.1)]">
-      <div class="flex items-center gap-4">
-        <span class="badge shadow-[0_0_10px_rgba(0,0,0,0.1)] {getStatusClass($response.status)}">
-          <span class="w-1.5 h-1.5 rounded-full bg-current mr-1.5 animate-pulse shadow-[0_0_5px_currentColor]"></span>
+    <div class="flex items-center justify-between px-4 py-2.5" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); backdrop-filter: blur(12px);">
+      <div class="flex items-center gap-3">
+        <span class="method-badge {getStatusClass($response.status)} flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
           {$response.status} {$response.statusText}
         </span>
-        <div class="flex items-center gap-3 text-xs font-medium text-vscode-foreground/60">
-          <span class="flex items-center gap-1.5 bg-vscode-editor-background/40 px-2.5 py-1.5 rounded-lg border border-vscode-border/30 shadow-sm backdrop-blur-sm transition-all hover:bg-vscode-editor-background/60 hover:border-vscode-border/50">
-            <svg class="w-3.5 h-3.5 text-blue-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="flex items-center gap-2 text-xs font-medium">
+          <span class="flex items-center gap-1.5 px-2 py-1 rounded-md" style="background:var(--bg-glass-md); border: 1px solid var(--border-subtle); color: var(--text-secondary);">
+            <svg class="w-3 h-3" style="color: var(--api-info);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             {formatTime($response.time)}
           </span>
-          <span class="flex items-center gap-1.5 bg-vscode-editor-background/40 px-2.5 py-1.5 rounded-lg border border-vscode-border/30 shadow-sm backdrop-blur-sm transition-all hover:bg-vscode-editor-background/60 hover:border-vscode-border/50">
-            <svg class="w-3.5 h-3.5 text-purple-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <span class="flex items-center gap-1.5 px-2 py-1 rounded-md" style="background:var(--bg-glass-md); border: 1px solid var(--border-subtle); color: var(--text-secondary);">
+            <svg class="w-3 h-3" style="color: var(--api-purple);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
             </svg>
             {formatSize($response.size)}
           </span>
         </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1">
         <button
-          class="w-8 h-8 flex items-center justify-center rounded-lg text-vscode-foreground/50 hover:text-vscode-foreground hover:bg-vscode-list-hover/50 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)] transition-all duration-200"
-          title="Copy response"
+          class="btn-icon w-7 h-7"
+          title="Copy response body"
           on:click={() => navigator.clipboard.writeText($response?.body || '')}
         >
-          <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>
         </button>
@@ -113,28 +113,20 @@
   {/if}
 
   <!-- Tabs -->
-  <div class="flex items-center gap-2 px-6 border-b border-vscode-border/30 bg-vscode-sidebar-bg/20 backdrop-blur-sm">
+  <div class="flex items-center gap-0.5 px-2 pt-1" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); backdrop-filter: blur(8px);">
     {#each tabs as tab}
       <button
-        class="tab relative px-4 py-3 text-sm font-medium transition-all duration-200 {!$response && tab.id !== 'code' ? 'opacity-40 cursor-not-allowed' : 'hover:text-vscode-foreground'} {$responseTab === tab.id ? 'text-vscode-foreground' : 'text-vscode-foreground/60'}"
+        class="tab relative flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium {!$response && tab.id !== 'code' ? 'opacity-35 cursor-not-allowed' : ''} {$responseTab === tab.id ? 'tab-active' : ''}"
         on:click={() => responseTab.set(tab.id)}
         disabled={!$response && tab.id !== 'code'}
       >
-        <span class="relative z-10 flex items-center gap-2">
-          {tab.label}
-          {#if tab.id === 'headers' && $response}
-            <span class="px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 text-[10px] font-bold shadow-sm">{getHeadersCount()}</span>
-          {:else if tab.id === 'cookies' && cookies.length > 0}
-            <span class="px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 text-[10px] font-bold shadow-sm">{cookies.length}</span>
-          {:else if tab.id === 'tests' && assertionResults.length > 0}
-            <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold shadow-sm {testsStatus.failed > 0 ? 'bg-red-500/10 text-red-400 border border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.1)]' : 'bg-green-500/10 text-green-400 border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.1)]'}">
-              {testsStatus.passed}/{assertionResults.length}
-            </span>
-          {/if}
-        </span>
-        {#if $responseTab === tab.id}
-          <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_-2px_10px_rgba(59,130,246,0.5)]"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent opacity-50"></div>
+        {tab.label}
+        {#if tab.id === 'headers' && $response}
+          <span class="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold" style="background:rgba(var(--api-primary-rgb),0.14);color:var(--api-primary);border:1px solid rgba(var(--api-primary-rgb),0.22);">{getHeadersCount()}</span>
+        {:else if tab.id === 'cookies' && cookies.length > 0}
+          <span class="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold" style="background:rgba(var(--api-warning-rgb),0.14);color:var(--api-warning);border:1px solid rgba(var(--api-warning-rgb),0.22);">{cookies.length}</span>
+        {:else if tab.id === 'tests' && assertionResults.length > 0}
+          <span class="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold" style="{testsStatus.failed > 0 ? 'background:rgba(var(--api-error-rgb),0.14);color:var(--api-error);border:1px solid rgba(var(--api-error-rgb),0.22)' : 'background:rgba(var(--api-success-rgb),0.14);color:var(--api-success);border:1px solid rgba(var(--api-success-rgb),0.22)'}">{testsStatus.passed}/{assertionResults.length}</span>
         {/if}
       </button>
     {/each}
@@ -149,15 +141,16 @@
       />
     {:else if !$response}
       <!-- No Response -->
-      <div class="absolute inset-0 flex flex-col items-center justify-center text-vscode-foreground/50 bg-vscode-editor-background/20 backdrop-blur-sm">
-        <div class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center border border-white/5 shadow-[0_0_30px_rgba(59,130,246,0.1)] relative group">
-          <div class="absolute inset-0 rounded-full bg-blue-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <svg class="w-12 h-12 text-blue-400/50 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+      <div class="absolute inset-0 flex flex-col items-center justify-center animate-fade-in">
+        <div class="relative w-20 h-20 mb-5 flex items-center justify-center">
+          <div class="absolute inset-0 rounded-2xl rotate-6" style="background: linear-gradient(135deg, rgba(var(--api-primary-rgb),0.1), rgba(var(--api-purple-rgb),0.08)); border: 1px solid rgba(var(--api-primary-rgb),0.12);"></div>
+          <div class="absolute inset-0 rounded-2xl" style="background: linear-gradient(135deg, rgba(var(--api-primary-rgb),0.08), rgba(var(--api-purple-rgb),0.06)); border: 1px solid var(--border-subtle);"></div>
+          <svg class="w-9 h-9 relative z-10" style="color: rgba(var(--api-primary-rgb),0.5);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
           </svg>
         </div>
-        <p class="text-xl font-semibold text-vscode-foreground/80 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-vscode-foreground to-vscode-foreground/60">No Response Yet</p>
-        <p class="text-sm mt-2 text-vscode-foreground/40">Send a request to see the response</p>
+        <p class="text-sm font-semibold mb-1" style="color: var(--text-secondary);">No response yet</p>
+        <p class="text-xs" style="color: var(--text-muted);">Hit Send to execute your request</p>
       </div>
     {:else if $responseTab === 'body'}
       <ResponseBody body={$response.body} headers={$response.headers} />

@@ -221,14 +221,18 @@
 
 <main class="h-screen flex flex-col overflow-hidden bg-vscode-background text-vscode-foreground">
   <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/40 backdrop-blur-xl sticky top-0 z-10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-api-primary to-api-purple flex items-center justify-center shadow-[0_0_15px_rgba(var(--api-primary-rgb),0.5)]">
-        <svg class="w-5 h-5 text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+  <header class="flex items-center justify-between px-5 py-2.5 border-b border-white/[0.06] bg-vscode-editor-background/60 backdrop-blur-2xl sticky top-0 z-10" style="box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.18);">
+    <div class="flex items-center gap-2.5">
+      <!-- Logo mark -->
+      <div class="relative w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background: var(--grad-primary); box-shadow: 0 0 16px rgba(var(--api-primary-rgb),0.4), inset 0 1px 0 rgba(255,255,255,0.2);">
+        <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 3L4 14h7v7l9-11h-7z" />
         </svg>
       </div>
-      <h1 class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-api-primary to-api-purple tracking-tight drop-shadow-[0_0_8px_rgba(var(--api-primary-rgb),0.3)]">APIForge</h1>
+      <div class="flex items-baseline gap-1.5">
+        <h1 class="text-[13px] font-bold tracking-tight text-gradient">APIForge</h1>
+        <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-full" style="background:var(--bg-glass-md);color:var(--text-muted);border:1px solid var(--border-subtle);">v0.1.0</span>
+      </div>
     </div>
     <div class="flex items-center gap-3">
       <!-- Environment Selector -->
@@ -361,16 +365,15 @@
 
       <!-- Save Request Button -->
       <button
-        class="save-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all duration-300 shadow-[0_0_10px_rgba(16,185,129,0.2)] hover:shadow-[0_0_15px_rgba(16,185,129,0.4)]"
+        class="save-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all duration-300"
         on:click={handleSaveRequest}
         title="Save Request to Collection"
       >
-        <svg class="w-3.5 h-3.5 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
         </svg>
         Save
       </button>
-      <span class="text-xs text-vscode-foreground/50 font-mono">v0.1.0</span>
     </div>
   </header>
 
@@ -398,7 +401,7 @@
     <!-- Request/Response Panels -->
     <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
       <!-- Request Panel -->
-      <div class="flex-1 flex flex-col min-h-0 lg:min-w-[400px] lg:max-w-[60%] border-b lg:border-b-0 lg:border-r border-vscode-border">
+      <div class="flex-1 flex flex-col min-h-0 lg:min-w-[400px] lg:max-w-[60%] border-b lg:border-b-0 lg:border-r" style="border-color: var(--border-subtle);">
         <RequestBuilder on:save={handleSaveRequest} />
       </div>
 
@@ -406,9 +409,17 @@
       <div class="flex-1 flex flex-col min-h-0 lg:min-w-[400px]">
         {#if $isLoading}
           <div class="flex-1 flex items-center justify-center">
-            <div class="flex flex-col items-center gap-3">
-              <div class="w-8 h-8 border-2 border-vscode-focus-border border-t-transparent rounded-full animate-spin"></div>
-              <span class="text-sm text-vscode-foreground" style="opacity: 0.7;">Sending request...</span>
+            <div class="flex flex-col items-center gap-4 animate-fade-in">
+              <!-- Animated spinner with glow -->
+              <div class="relative w-12 h-12">
+                <div class="absolute inset-0 rounded-full animate-spin" style="border: 2px solid var(--border-default); border-top-color: var(--api-primary); box-shadow: 0 0 16px rgba(var(--api-primary-rgb),0.3);"></div>
+                <div class="absolute inset-2 rounded-full animate-spin" style="border: 2px solid transparent; border-top-color: var(--api-purple); animation-direction: reverse; animation-duration: 0.7s;"></div>
+                <div class="absolute inset-0 rounded-full" style="background: radial-gradient(circle, rgba(var(--api-primary-rgb),0.08), transparent 70%);"></div>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <span class="text-sm font-medium" style="color:var(--text-primary);">Sending request</span>
+                <span class="text-xs" style="color:var(--text-muted);">Please wait...</span>
+              </div>
             </div>
           </div>
         {:else}
@@ -549,30 +560,34 @@
   }
 
   .save-btn {
-    background: linear-gradient(135deg, #10b981, #059669);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #ffffff;
+    background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(5,150,105,0.12));
+    border: 1px solid rgba(16,185,129,0.3);
+    color: #34d399;
     font-weight: 600;
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 12px rgba(16,185,129,0.15);
+    transition: all 200ms var(--ease-smooth);
   }
 
   .save-btn:hover {
-    background: linear-gradient(135deg, #059669, #047857);
-    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, rgba(16,185,129,0.26), rgba(5,150,105,0.18));
+    border-color: rgba(16,185,129,0.45);
+    box-shadow: 0 0 20px rgba(16,185,129,0.28);
     transform: translateY(-1px);
   }
 
   .test-btn {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #ffffff;
+    background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(217,119,6,0.12));
+    border: 1px solid rgba(245,158,11,0.3);
+    color: #fbbf24;
     font-weight: 600;
-    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+    box-shadow: 0 0 12px rgba(245,158,11,0.15);
+    transition: all 200ms var(--ease-smooth);
   }
 
   .test-btn:hover {
-    background: linear-gradient(135deg, #d97706, #b45309);
-    box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, rgba(245,158,11,0.26), rgba(217,119,6,0.18));
+    border-color: rgba(245,158,11,0.45);
+    box-shadow: 0 0 20px rgba(245,158,11,0.28);
     transform: translateY(-1px);
   }
 </style>

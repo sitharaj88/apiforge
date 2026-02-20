@@ -11,20 +11,15 @@
   }
 </script>
 
-<div class="flex items-center gap-1 border-b border-vscode-border/30 bg-vscode-editor-background/30 backdrop-blur-sm px-2 pt-2">
+<div class="flex items-center gap-0.5 px-2 pt-1.5" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); backdrop-filter: blur(8px);">
   {#each tabs as tab}
     <button
-      class="tab relative px-4 py-2 text-sm font-medium transition-all duration-200 rounded-t-lg {activeTab === tab.id ? 'text-vscode-foreground' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-editor-background/50'}"
+      class="tab relative flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium rounded-t-md {activeTab === tab.id ? 'tab-active' : ''}"
       on:click={() => handleTabClick(tab.id)}
     >
-      <div class="flex items-center gap-2">
-        {tab.label}
-        {#if tab.badge && tab.badge > 0}
-          <span class="badge bg-api-primary/20 text-api-primary border border-api-primary/30 px-1.5 py-0.5 rounded-full text-[10px] font-bold">{tab.badge}</span>
-        {/if}
-      </div>
-      {#if activeTab === tab.id}
-        <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-api-primary to-api-purple shadow-[0_0_8px_var(--api-primary)]"></div>
+      {tab.label}
+      {#if tab.badge && tab.badge > 0}
+        <span class="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold" style="background: rgba(var(--api-primary-rgb),0.18); color: var(--api-primary); border: 1px solid rgba(var(--api-primary-rgb),0.25);">{tab.badge}</span>
       {/if}
     </button>
   {/each}
