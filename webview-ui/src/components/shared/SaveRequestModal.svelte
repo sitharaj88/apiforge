@@ -211,26 +211,29 @@
 
 <style>
   .modal-backdrop {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
   }
 
   .modal-content {
-    background: linear-gradient(180deg, var(--vscode-editor-background) 0%, var(--vscode-sideBar-background) 100%);
-    border: 1px solid var(--vscode-widget-border, var(--vscode-editorWidget-border, rgba(255,255,255,0.1)));
+    background: var(--vscode-editor-background);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.3),
+      0 25px 50px -12px rgba(0, 0, 0, 0.6),
+      0 0 80px -20px rgba(59, 130, 246, 0.15);
     overflow: hidden;
   }
 
   .modal-header {
-    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.15);
   }
 
   .modal-footer {
-    background: rgba(0,0,0,0.2);
-    border-top: 1px solid rgba(255,255,255,0.05);
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.15) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .toggle-pill {
@@ -238,36 +241,39 @@
   }
 
   .toggle-pill-active {
-    background: var(--vscode-button-background);
-    color: var(--vscode-button-foreground);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
     opacity: 1;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
   }
 
   .input-modern {
     padding: 12px 16px;
     font-size: 14px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    color: var(--vscode-foreground);
-    transition: all 0.2s;
+    background: var(--vscode-input-background, rgba(30, 30, 30, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: var(--vscode-input-foreground, var(--vscode-foreground));
+    transition: all 0.2s ease;
+  }
+
+  .input-modern:hover {
+    border-color: rgba(255, 255, 255, 0.15);
   }
 
   .input-modern:focus {
     outline: none;
-    border-color: var(--vscode-focusBorder);
-    box-shadow: 0 0 0 3px rgba(var(--vscode-focusBorder), 0.1);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
 
   .input-modern::placeholder {
-    color: var(--vscode-foreground);
-    opacity: 0.3;
+    color: var(--vscode-input-placeholderForeground, rgba(255, 255, 255, 0.4));
   }
 
   .empty-state {
-    background: rgba(0,0,0,0.2);
-    border: 1px dashed rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
   }
 
   .collection-list::-webkit-scrollbar {
@@ -279,34 +285,47 @@
   }
 
   .collection-list::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
   }
 
+  .collection-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
   .collection-item {
-    background: rgba(0,0,0,0.2);
-    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: all 0.15s ease;
   }
 
   .collection-item:hover:not(.collection-item-selected) {
-    background: rgba(0,0,0,0.3);
-    border-color: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
   }
 
   .collection-item-selected {
-    background: var(--vscode-button-background);
-    border-color: transparent;
-    color: var(--vscode-button-foreground);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.15) 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: var(--vscode-foreground);
   }
 
   .btn-save {
-    background: var(--vscode-button-background);
-    color: var(--vscode-button-foreground);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    font-weight: 500;
+    border: none;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
   }
 
   .btn-save:hover:not(:disabled) {
-    background: var(--vscode-button-hoverBackground);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+  }
+
+  .btn-save:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
   }
 </style>

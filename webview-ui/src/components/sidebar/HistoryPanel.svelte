@@ -59,13 +59,13 @@
   }
 </script>
 
-<div class="flex flex-col h-full bg-vscode-sidebar-bg/50 backdrop-blur-sm">
+<div class="flex flex-col h-full bg-vscode-sidebar-bg/30 backdrop-blur-xl border-r border-vscode-border/30 shadow-[4px_0_24px_rgba(0,0,0,0.1)]">
   <!-- Header -->
-  <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border bg-vscode-editor-background/30">
-    <span class="text-xs font-semibold text-vscode-foreground/70 uppercase tracking-wider">History</span>
+  <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/40 backdrop-blur-md">
+    <span class="text-xs font-semibold text-vscode-foreground/80 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">History</span>
     {#if history.length > 0}
       <button
-        class="p-1.5 rounded-md hover:bg-red-500/10 text-vscode-foreground/70 hover:text-red-400 transition-all duration-200"
+        class="p-1.5 rounded-md hover:bg-red-500/20 text-vscode-foreground/70 hover:text-red-400 transition-all duration-300 hover:shadow-[0_0_10px_rgba(239,68,68,0.3)]"
         title="Clear History"
         on:click={() => dispatch('clearHistory')}
       >
@@ -77,10 +77,10 @@
   </div>
 
   <!-- History List -->
-  <div class="flex-1 overflow-auto py-2">
+  <div class="flex-1 overflow-auto py-2 custom-scrollbar">
     {#if history.length === 0}
       <div class="flex flex-col items-center justify-center h-full p-6 text-center text-vscode-foreground/50">
-        <div class="w-16 h-16 mb-4 rounded-full bg-vscode-editor-background/50 flex items-center justify-center border border-vscode-border shadow-sm">
+        <div class="w-16 h-16 mb-4 rounded-full bg-vscode-editor-background/30 backdrop-blur-sm flex items-center justify-center border border-vscode-border/30 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
           <svg class="w-8 h-8 text-vscode-foreground/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -92,7 +92,7 @@
       <div class="space-y-1 px-2">
       {#each history as entry (entry.id)}
         <div
-          class="flex items-start gap-3 w-full px-3 py-2.5 rounded-md hover:bg-vscode-list-hover/50 group transition-colors duration-150 border border-transparent hover:border-vscode-border/50 text-left cursor-pointer"
+          class="flex items-start gap-3 w-full px-3 py-2.5 rounded-md hover:bg-vscode-list-hover/50 group transition-all duration-300 border border-transparent hover:border-vscode-border/30 hover:bg-vscode-editor-background/30 text-left cursor-pointer"
           role="button"
           tabindex="0"
           on:click={() => dispatch('selectHistory', { entry })}
@@ -100,29 +100,30 @@
         >
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2.5">
-              <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-vscode-editor-background/50 border border-vscode-border/50 {getMethodColor(entry.request.method)}">{entry.request.method}</span>
+              <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-vscode-editor-background/50 border border-vscode-border/30 shadow-inner {getMethodColor(entry.request.method)} drop-shadow-[0_0_5px_currentColor]">{entry.request.method}</span>
               {#if entry.response}
-                <span class="text-xs font-mono {getStatusColor(entry.response.status)}">{entry.response.status}</span>
+                <span class="text-xs font-mono {getStatusColor(entry.response.status)} drop-shadow-[0_0_5px_currentColor]">{entry.response.status}</span>
               {/if}
             </div>
-            <div class="text-xs text-vscode-foreground truncate mt-0.5" title={entry.request.url}>
+            <div class="text-xs text-vscode-foreground/80 truncate mt-1 group-hover:text-api-primary transition-colors duration-200" title={entry.request.url}>
               {getUrlPath(entry.request.url)}
             </div>
-            <div class="text-xs mt-0.5 text-vscode-foreground" style="opacity: 0.4;">
+            <div class="text-[10px] mt-1 text-vscode-foreground/40 font-medium">
               {formatTimestamp(entry.timestamp)}
             </div>
           </div>
           <button
-            class="p-0.5 rounded opacity-0 group-hover:opacity-100 hover:bg-red-500/20 text-vscode-foreground hover:text-red-400 flex-shrink-0"
+            class="p-1 rounded-md opacity-0 group-hover:opacity-100 hover:bg-red-500/10 text-vscode-foreground/40 hover:text-red-400 flex-shrink-0 transition-all duration-200"
             title="Delete"
             on:click|stopPropagation={() => dispatch('deleteHistory', { id: entry.id })}
           >
-            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
       {/each}
+      </div>
     {/if}
   </div>
 </div>

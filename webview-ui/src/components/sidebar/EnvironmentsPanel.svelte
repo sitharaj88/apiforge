@@ -21,7 +21,6 @@
 
   let showNewEnvInput = false;
   let newEnvName = '';
-  let editingEnvId: string | null = null;
 
   function createEnvironment() {
     if (newEnvName.trim()) {
@@ -44,12 +43,12 @@
   }
 </script>
 
-<div class="flex flex-col h-full bg-vscode-sidebar-bg/50 backdrop-blur-sm">
+<div class="flex flex-col h-full bg-vscode-sidebar-bg/30 backdrop-blur-xl border-r border-vscode-border/30 shadow-[4px_0_24px_rgba(0,0,0,0.1)]">
   <!-- Header -->
-  <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border bg-vscode-editor-background/30">
-    <span class="text-xs font-semibold text-vscode-foreground/70 uppercase tracking-wider">Environments</span>
+  <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/40 backdrop-blur-md">
+    <span class="text-xs font-semibold text-vscode-foreground/80 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">Environments</span>
     <button
-      class="p-1.5 rounded-md hover:bg-blue-500/10 text-vscode-foreground/70 hover:text-blue-400 transition-all duration-200"
+      class="p-1.5 rounded-md hover:bg-api-primary/20 text-vscode-foreground/70 hover:text-api-primary transition-all duration-300 hover:shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.3)]"
       title="New Environment"
       on:click={() => showNewEnvInput = true}
     >
@@ -61,11 +60,11 @@
 
   <!-- New Environment Input -->
   {#if showNewEnvInput}
-    <div class="px-4 py-3 border-b border-vscode-border bg-vscode-editor-background/50 shadow-inner">
+    <div class="px-4 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/50 backdrop-blur-md shadow-inner">
       <!-- svelte-ignore a11y_autofocus -->
       <input
         type="text"
-        class="input w-full text-sm py-1.5 px-3 bg-vscode-editor-background border-vscode-border focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all duration-200"
+        class="input w-full text-sm py-1.5 px-3 bg-vscode-editor-background/50 border-vscode-border/50 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-300 shadow-inner"
         placeholder="Environment name..."
         bind:value={newEnvName}
         on:keydown={(e) => {
@@ -75,8 +74,8 @@
         autofocus
       />
       <div class="flex gap-2 mt-3">
-        <button class="btn btn-primary py-1.5 px-3 text-xs flex-1 shadow-sm" on:click={createEnvironment}>Create</button>
-        <button class="btn btn-secondary py-1.5 px-3 text-xs flex-1" on:click={() => showNewEnvInput = false}>Cancel</button>
+        <button class="btn btn-primary py-1.5 px-3 text-xs flex-1 shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.3)] hover:shadow-[0_0_15px_rgba(var(--api-primary-rgb),0.5)] transition-all duration-300" on:click={createEnvironment}>Create</button>
+        <button class="btn btn-secondary py-1.5 px-3 text-xs flex-1 bg-vscode-editor-background/50 hover:bg-vscode-editor-background/80 border border-vscode-border/50 transition-all duration-300" on:click={() => showNewEnvInput = false}>Cancel</button>
       </div>
     </div>
   {/if}
@@ -84,22 +83,25 @@
   <!-- No Environment Option -->
   <div class="px-2 pt-2">
     <button
-      class="env-item flex items-center gap-2.5 w-full px-3 py-2 rounded-md hover:bg-vscode-list-hover/50 transition-colors duration-150"
+      class="env-item flex items-center gap-2.5 w-full px-3 py-2 rounded-md hover:bg-vscode-list-hover/50 transition-all duration-300"
       class:env-item-active={!activeEnvironmentId}
+      class:bg-api-primary={!activeEnvironmentId}
+      class:bg-opacity-10={!activeEnvironmentId}
+      class:shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.1)]={!activeEnvironmentId}
       on:click={() => selectEnvironment(null)}
     >
-      <svg class="w-4.5 h-4.5 {!activeEnvironmentId ? 'text-green-400' : 'text-vscode-foreground/40'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg class="w-4.5 h-4.5 {!activeEnvironmentId ? 'text-api-primary drop-shadow-[0_0_5px_rgba(var(--api-primary-rgb),0.5)]' : 'text-vscode-foreground/40'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
       </svg>
-      <span class="text-sm font-medium" class:text-green-400={!activeEnvironmentId} class:text-vscode-foreground={activeEnvironmentId} style={activeEnvironmentId ? 'opacity: 0.6;' : ''}>No Environment</span>
+      <span class="text-sm font-medium transition-colors duration-300" class:text-api-primary={!activeEnvironmentId} class:text-vscode-foreground={activeEnvironmentId} style={activeEnvironmentId ? 'opacity: 0.6;' : ''}>No Environment</span>
     </button>
   </div>
 
   <!-- Environments List -->
-  <div class="flex-1 overflow-auto py-2">
+  <div class="flex-1 overflow-auto py-2 custom-scrollbar">
     {#if environments.length === 0}
       <div class="flex flex-col items-center justify-center h-full p-6 text-center text-vscode-foreground/50">
-        <div class="w-16 h-16 mb-4 rounded-full bg-vscode-editor-background/50 flex items-center justify-center border border-vscode-border shadow-sm">
+        <div class="w-16 h-16 mb-4 rounded-full bg-vscode-editor-background/30 backdrop-blur-sm flex items-center justify-center border border-vscode-border/30 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
           <svg class="w-8 h-8 text-vscode-foreground/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -107,7 +109,7 @@
         </div>
         <p class="text-sm font-medium text-vscode-foreground/70">No environments yet</p>
         <button
-          class="text-sm text-blue-400 mt-2 hover:text-blue-300 hover:underline transition-colors"
+          class="text-sm text-api-primary mt-2 hover:text-api-purple hover:underline transition-colors drop-shadow-[0_0_8px_rgba(var(--api-primary-rgb),0.5)]"
           on:click={() => showNewEnvInput = true}
         >
           Create your first environment
@@ -117,28 +119,31 @@
       <div class="space-y-1 px-2">
       {#each environments as env (env.id)}
         <div
-          class="env-item flex items-center gap-2 w-full px-3 py-2 rounded-md hover:bg-vscode-list-hover/50 group transition-colors duration-150 border border-transparent"
+          class="env-item flex items-center gap-2 w-full px-3 py-2 rounded-md hover:bg-vscode-list-hover/50 group transition-all duration-300 border border-transparent"
           class:env-item-active={activeEnvironmentId === env.id}
+          class:bg-api-primary={activeEnvironmentId === env.id}
+          class:bg-opacity-10={activeEnvironmentId === env.id}
+          class:shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.1)]={activeEnvironmentId === env.id}
         >
           <button
             class="flex items-center gap-2.5 flex-1"
             on:click={() => selectEnvironment(env.id)}
           >
             {#if activeEnvironmentId === env.id}
-              <svg class="w-4.5 h-4.5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <svg class="w-4.5 h-4.5 text-api-primary drop-shadow-[0_0_5px_rgba(var(--api-primary-rgb),0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             {:else}
-              <svg class="w-4.5 h-4.5 text-vscode-foreground/30 group-hover:text-vscode-foreground/50 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg class="w-4.5 h-4.5 text-vscode-foreground/30 group-hover:text-api-primary/50 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10" />
               </svg>
             {/if}
-            <span class="text-sm font-medium flex-1 text-left truncate" class:text-green-400={activeEnvironmentId === env.id} class:text-vscode-foreground={activeEnvironmentId !== env.id}>{env.name}</span>
-            <span class="text-xs font-medium px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 border border-vscode-border/50" class:text-green-400={activeEnvironmentId === env.id} class:text-vscode-foreground={activeEnvironmentId !== env.id} style={activeEnvironmentId !== env.id ? 'opacity: 0.5;' : 'opacity: 0.8;'}>{getVariableCount(env)} vars</span>
+            <span class="text-sm font-medium flex-1 text-left truncate transition-colors duration-300" class:text-api-primary={activeEnvironmentId === env.id} class:text-vscode-foreground={activeEnvironmentId !== env.id}>{env.name}</span>
+            <span class="text-xs font-medium px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 shadow-inner transition-colors duration-300" class:text-api-primary={activeEnvironmentId === env.id} class:text-vscode-foreground={activeEnvironmentId !== env.id} style={activeEnvironmentId !== env.id ? 'opacity: 0.5;' : 'opacity: 0.8;'}>{getVariableCount(env)} vars</span>
           </button>
 
           <button
-            class="p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-blue-500/10 text-vscode-foreground/40 hover:text-blue-400 transition-all duration-200"
+            class="p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-api-primary/10 text-vscode-foreground/40 hover:text-api-primary transition-all duration-200"
             title="Edit"
             on:click={() => dispatch('editEnvironment', { environment: env })}
           >
@@ -163,17 +168,12 @@
 </div>
 
 <style>
-  .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-  }
-
   .env-item-active {
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent) !important;
-    border-color: rgba(16, 185, 129, 0.2) !important;
+    background: linear-gradient(90deg, rgba(var(--api-primary-rgb), 0.1), transparent) !important;
+    border-color: rgba(var(--api-primary-rgb), 0.2) !important;
   }
 
   .env-item-active:hover {
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.15), transparent) !important;
+    background: linear-gradient(90deg, rgba(var(--api-primary-rgb), 0.15), transparent) !important;
   }
 </style>

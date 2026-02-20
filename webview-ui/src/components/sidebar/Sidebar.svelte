@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import CollectionsPanel from './CollectionsPanel.svelte';
   import EnvironmentsPanel from './EnvironmentsPanel.svelte';
   import HistoryPanel from './HistoryPanel.svelte';
@@ -11,8 +10,6 @@
   export let activeEnvironmentId: string | null = null;
   export let history: any[] = [];
 
-  const dispatch = createEventDispatcher();
-
   let activeTab: SidebarTab = 'collections';
   let isCollapsed = false;
 
@@ -23,63 +20,66 @@
   ];
 </script>
 
-<aside class="sidebar flex flex-col h-full bg-vscode-sidebar-bg/80 backdrop-blur-md border-r border-vscode-border flex-shrink-0 transition-all duration-300 ease-in-out" class:sidebar-collapsed={isCollapsed}>
+<aside class="sidebar flex flex-col h-full bg-vscode-sidebar-bg/40 backdrop-blur-xl border-r border-vscode-border/30 flex-shrink-0 transition-all duration-300 ease-in-out shadow-[4px_0_24px_rgba(0,0,0,0.1)] relative z-20" class:sidebar-collapsed={isCollapsed}>
   <!-- Tab Icons -->
-  <div class="flex items-center px-2 py-2 border-b border-vscode-border bg-vscode-editor-background/50" class:justify-center={isCollapsed} class:justify-between={!isCollapsed}>
+  <div class="flex items-center px-2 py-2 border-b border-vscode-border/30 bg-vscode-editor-background/30 backdrop-blur-md" class:justify-center={isCollapsed} class:justify-between={!isCollapsed}>
     {#if isCollapsed}
       <!-- Collapsed: Stack icons vertically -->
-      <div class="flex flex-col items-center gap-2">
+      <div class="flex flex-col items-center gap-2 w-full">
         {#each tabs as tab}
           <button
-            class="p-2 rounded-lg transition-all duration-200 {activeTab === tab.id ? 'bg-blue-500/10 text-blue-400 shadow-sm' : 'text-vscode-foreground hover:bg-vscode-list-hover'}"
-            style={activeTab !== tab.id ? 'opacity: 0.7;' : ''}
+            class="p-2.5 rounded-xl transition-all duration-300 relative group {activeTab === tab.id ? 'bg-blue-500/15 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)] ring-1 ring-blue-500/30' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-list-hover/50'}"
             title={tab.label}
             on:click={() => { activeTab = tab.id; isCollapsed = false; }}
           >
-            <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-5 h-5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               {@html tab.icon}
             </svg>
+            {#if activeTab === tab.id}
+              <div class="absolute inset-0 bg-blue-500/20 blur-md rounded-xl opacity-50"></div>
+            {/if}
           </button>
         {/each}
-        <div class="w-6 h-px bg-vscode-border my-1"></div>
+        <div class="w-8 h-px bg-gradient-to-r from-transparent via-vscode-border/50 to-transparent my-2"></div>
         <button
-          class="p-2 rounded-lg hover:bg-vscode-list-hover text-vscode-foreground transition-all duration-200"
-          style="opacity: 0.7;"
+          class="p-2.5 rounded-xl text-vscode-foreground/50 hover:text-vscode-foreground hover:bg-vscode-list-hover/50 transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)]"
           title="Expand"
           on:click={() => isCollapsed = false}
         >
-          <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
           </svg>
         </button>
       </div>
     {:else}
       <!-- Expanded: Horizontal layout -->
-      <div class="flex items-center gap-1.5">
+      <div class="flex items-center gap-1.5 w-full">
         {#each tabs as tab}
           <button
-            class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 {activeTab === tab.id ? 'bg-blue-500/10 text-blue-400 shadow-sm font-medium' : 'text-vscode-foreground hover:bg-vscode-list-hover'}"
-            style={activeTab !== tab.id ? 'opacity: 0.7;' : ''}
+            class="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl transition-all duration-300 relative group overflow-hidden {activeTab === tab.id ? 'bg-blue-500/15 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)] ring-1 ring-blue-500/30' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-list-hover/50'}"
             title={tab.label}
             on:click={() => { activeTab = tab.id; }}
           >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-4 h-4 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               {@html tab.icon}
             </svg>
-            <span class="text-xs">{tab.label}</span>
+            {#if activeTab === tab.id}
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-50"></div>
+              <div class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 shadow-[0_-2px_8px_rgba(59,130,246,0.8)]"></div>
+            {/if}
           </button>
         {/each}
+        <div class="w-px h-6 bg-vscode-border/30 mx-1"></div>
+        <button
+          class="p-2 rounded-xl text-vscode-foreground/50 hover:text-vscode-foreground hover:bg-vscode-list-hover/50 transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.05)] flex-shrink-0"
+          title="Collapse"
+          on:click={() => isCollapsed = true}
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+          </svg>
+        </button>
       </div>
-      <button
-        class="p-1.5 rounded-lg hover:bg-vscode-list-hover text-vscode-foreground transition-all duration-200"
-        style="opacity: 0.7;"
-        title="Collapse"
-        on:click={() => isCollapsed = true}
-      >
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-        </svg>
-      </button>
     {/if}
   </div>
 

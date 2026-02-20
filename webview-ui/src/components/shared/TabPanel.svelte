@@ -14,11 +14,7 @@
 <div class="flex items-center gap-1 border-b border-vscode-border/30 bg-vscode-editor-background/30 backdrop-blur-sm px-2 pt-2">
   {#each tabs as tab}
     <button
-      class="tab relative px-4 py-2 text-sm font-medium transition-all duration-200 rounded-t-lg"
-      class:text-vscode-foreground={activeTab === tab.id}
-      class:text-vscode-foreground-muted={activeTab !== tab.id}
-      class:hover:text-vscode-foreground={activeTab !== tab.id}
-      class:hover:bg-vscode-editor-background/50={activeTab !== tab.id}
+      class="tab relative px-4 py-2 text-sm font-medium transition-all duration-200 rounded-t-lg {activeTab === tab.id ? 'text-vscode-foreground' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-editor-background/50'}"
       on:click={() => handleTabClick(tab.id)}
     >
       <div class="flex items-center gap-2">

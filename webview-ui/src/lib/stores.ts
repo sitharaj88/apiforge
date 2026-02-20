@@ -119,8 +119,8 @@ export const history: Writable<HistoryEntry[]> = writable([]);
 export const activeRequestSourceCollection: Writable<string | null> = writable(null);
 
 // UI state
-export const activeTab: Writable<'params' | 'headers' | 'body' | 'auth'> = writable('params');
-export const responseTab: Writable<'body' | 'headers' | 'cookies'> = writable('body');
+export const activeTab: Writable<'params' | 'headers' | 'body' | 'auth' | 'scripts' | 'assertions' | 'query'> = writable('params');
+export const responseTab: Writable<'body' | 'headers' | 'cookies' | 'tests' | 'code'> = writable('body');
 
 // State persistence
 const persistedState = vscode.getState<{
@@ -134,10 +134,10 @@ if (persistedState) {
     activeRequest.set(persistedState.activeRequest);
   }
   if (persistedState.activeTab) {
-    activeTab.set(persistedState.activeTab as 'params' | 'headers' | 'body' | 'auth');
+    activeTab.set(persistedState.activeTab as 'params' | 'headers' | 'body' | 'auth' | 'scripts' | 'assertions' | 'query');
   }
   if (persistedState.responseTab) {
-    responseTab.set(persistedState.responseTab as 'body' | 'headers' | 'cookies');
+    responseTab.set(persistedState.responseTab as 'body' | 'headers' | 'cookies' | 'tests' | 'code');
   }
 }
 

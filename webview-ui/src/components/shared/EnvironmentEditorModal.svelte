@@ -90,31 +90,34 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
 <div
-  class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center"
+  class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
   on:click={handleBackdropClick}
   role="presentation"
 >
   <div
-    class="modal-content w-full max-w-2xl mx-4 max-h-[90vh] flex flex-col"
+    class="modal-content w-full max-w-2xl mx-4 max-h-[90vh] flex flex-col bg-vscode-editor-background/80 backdrop-blur-xl border border-vscode-border/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden"
     role="dialog"
     aria-modal="true"
     aria-labelledby="modal-title"
   >
     <!-- Header -->
-    <div class="modal-header flex items-center justify-between px-6 py-5 flex-shrink-0">
+    <div class="modal-header flex items-center justify-between px-6 py-5 flex-shrink-0 border-b border-vscode-border/20 bg-vscode-editor-background/50 backdrop-blur-md">
       <div class="flex items-center gap-4">
-        <div class="p-2.5 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 ring-1 ring-green-500/20">
+        <div class="p-2.5 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 ring-1 ring-green-500/30 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
           <svg class="w-5 h-5 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
           </svg>
         </div>
         <div>
-          <h2 id="modal-title" class="text-base font-semibold text-vscode-foreground">Edit Environment</h2>
-          <p class="text-xs text-green-400/70">Configure variables for {editedName || 'this environment'}</p>
+          <h2 id="modal-title" class="text-base font-semibold text-vscode-foreground flex items-center gap-2">
+            Edit Environment
+            <span class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.6)] animate-pulse"></span>
+          </h2>
+          <p class="text-xs text-green-400/70 mt-0.5">Configure variables for {editedName || 'this environment'}</p>
         </div>
       </div>
       <button
-        class="p-2 rounded-lg hover:bg-white/5 text-vscode-foreground/60 hover:text-vscode-foreground transition-all"
+        class="p-2 rounded-lg hover:bg-vscode-editor-background/80 text-vscode-foreground/60 hover:text-vscode-foreground transition-all duration-200 border border-transparent hover:border-vscode-border/30"
         on:click={handleClose}
         aria-label="Close"
         type="button"
@@ -126,7 +129,7 @@
     </div>
 
     <!-- Content -->
-    <div class="px-6 py-5 flex-1 overflow-auto">
+    <div class="px-6 py-5 flex-1 overflow-auto bg-vscode-editor-background/30">
       <!-- Environment Name -->
       <div class="mb-6">
         <label for="env-name" class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider mb-2.5">
@@ -137,37 +140,37 @@
           type="text"
           bind:value={editedName}
           placeholder="e.g., Development, Production"
-          class="input-modern w-full"
+          class="input-modern w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-all duration-200"
         />
       </div>
 
       <!-- Variables -->
       <div>
         <div class="flex items-center justify-between mb-4">
-          <label class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider">
+          <span class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider">
             Variables
-          </label>
-          <span class="text-xs text-vscode-foreground/50">
-            Use as <code class="px-2 py-1 rounded-md bg-green-500/10 text-green-400 font-mono text-[11px]">{'{{variableName}}'}</code>
+          </span>
+          <span class="text-xs text-vscode-foreground/50 flex items-center gap-2">
+            Use as <code class="px-2 py-1 rounded-md bg-green-500/10 border border-green-500/20 text-green-400 font-mono text-[11px] shadow-inner">{'{{variableName}}'}</code>
           </span>
         </div>
 
         <!-- Variable Header -->
-        <div class="grid grid-cols-[auto_1fr_1fr_auto] gap-3 mb-2 px-3">
-          <div class="w-6"></div>
-          <span class="text-[11px] font-semibold text-vscode-foreground/40 uppercase tracking-wider">Key</span>
-          <span class="text-[11px] font-semibold text-vscode-foreground/40 uppercase tracking-wider">Value</span>
+        <div class="grid grid-cols-[auto_1fr_1fr_auto] gap-3 mb-2 px-3 py-2 rounded-lg bg-vscode-editor-background/50 border border-vscode-border/20">
+          <div class="w-7"></div>
+          <span class="text-[10px] font-bold text-vscode-foreground/50 uppercase tracking-wider">Key</span>
+          <span class="text-[10px] font-bold text-vscode-foreground/50 uppercase tracking-wider">Value</span>
           <div class="w-8"></div>
         </div>
 
         <!-- Variable Rows -->
         <div class="variables-list space-y-2 max-h-72 overflow-auto pr-1">
           {#each editedVariables as variable, index (variable.id)}
-            <div class="variable-row grid grid-cols-[auto_1fr_1fr_auto] gap-3 items-center p-3 rounded-xl">
+            <div class="variable-row grid grid-cols-[auto_1fr_1fr_auto] gap-3 items-center p-2 rounded-xl border border-vscode-border/10 bg-vscode-editor-background/40 hover:bg-vscode-editor-background/60 hover:border-vscode-border/30 transition-all duration-200 group">
               <!-- Enable/Disable -->
               <button
                 type="button"
-                class="w-7 h-7 rounded-lg flex items-center justify-center transition-all {variable.enabled ? 'bg-green-500/15 text-green-400' : 'bg-white/5 text-vscode-foreground/30'}"
+                class="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200 {variable.enabled ? 'bg-green-500/20 text-green-400 shadow-[0_0_10px_rgba(74,222,128,0.2)]' : 'bg-vscode-editor-background/80 text-vscode-foreground/30 border border-vscode-border/30'}"
                 on:click={() => toggleVariable(index)}
                 title={variable.enabled ? 'Disable variable' : 'Enable variable'}
               >
@@ -186,7 +189,7 @@
                 value={variable.key}
                 on:input={(e) => updateVariableKey(index, e.currentTarget.value)}
                 placeholder="variable_name"
-                class="input-sm w-full font-mono text-[13px] {!variable.enabled ? 'opacity-40' : ''}"
+                class="input-sm w-full font-mono text-[13px] bg-vscode-editor-background/50 border-vscode-border/20 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-all duration-200 {!variable.enabled ? 'opacity-40' : ''}"
               />
 
               <!-- Value Input -->
@@ -195,7 +198,7 @@
                 value={variable.value}
                 on:input={(e) => updateVariableValue(index, e.currentTarget.value)}
                 placeholder="value"
-                class="input-sm w-full font-mono text-[13px] {!variable.enabled ? 'opacity-40' : ''}"
+                class="input-sm w-full font-mono text-[13px] bg-vscode-editor-background/50 border-vscode-border/20 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-all duration-200 {!variable.enabled ? 'opacity-40' : ''}"
               />
 
               <!-- Delete Button -->

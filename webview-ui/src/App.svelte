@@ -221,20 +221,20 @@
 
 <main class="h-screen flex flex-col overflow-hidden bg-vscode-background text-vscode-foreground">
   <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-3 border-b border-vscode-border bg-vscode-editor-background/80 backdrop-blur-md sticky top-0 z-10">
+  <header class="flex items-center justify-between px-6 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/40 backdrop-blur-xl sticky top-0 z-10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
     <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-api-primary to-api-purple flex items-center justify-center shadow-[0_0_15px_rgba(var(--api-primary-rgb),0.5)]">
+        <svg class="w-5 h-5 text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       </div>
-      <h1 class="text-lg font-bold text-gradient tracking-tight">APIForge</h1>
+      <h1 class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-api-primary to-api-purple tracking-tight drop-shadow-[0_0_8px_rgba(var(--api-primary-rgb),0.3)]">APIForge</h1>
     </div>
     <div class="flex items-center gap-3">
       <!-- Environment Selector -->
       <div class="relative">
         <button
-          class="env-selector flex items-center gap-2 px-3 py-1.5 text-xs rounded-lg transition-all"
+          class="env-selector flex items-center gap-2 px-3 py-1.5 text-xs rounded-lg transition-all duration-300"
           class:env-active={activeEnvironment}
           on:click={() => showEnvDropdown = !showEnvDropdown}
           title={activeEnvironment ? `Active: ${activeEnvironment.name}` : 'No Environment'}
@@ -251,44 +251,44 @@
 
         {#if showEnvDropdown}
           <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-          <div class="env-dropdown absolute right-0 top-full mt-1 w-56 z-50 rounded-lg overflow-hidden shadow-xl">
-            <div class="px-3 py-2 border-b border-white/10">
-              <span class="text-xs font-semibold uppercase tracking-wider" style="opacity: 0.5;">Environment</span>
+          <div class="env-dropdown absolute right-0 top-full mt-2 w-56 z-50 rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-vscode-border/30 bg-vscode-editor-background/80 backdrop-blur-xl">
+            <div class="px-3 py-2 border-b border-vscode-border/30 bg-vscode-editor-background/50">
+              <span class="text-xs font-semibold uppercase tracking-wider text-vscode-foreground/50">Environment</span>
             </div>
 
             <!-- No Environment Option -->
             <button
-              class="env-option flex items-center gap-2 w-full px-3 py-2 text-left text-sm"
+              class="env-option flex items-center gap-2 w-full px-3 py-2 text-left text-sm transition-colors duration-200 hover:bg-vscode-list-hover/50"
               class:env-option-selected={!$activeEnvironmentId}
               on:click={() => selectEnvironmentFromHeader(null)}
             >
-              <svg class="w-4 h-4" style="opacity: 0.5;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg class="w-4 h-4 text-vscode-foreground/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
               </svg>
-              <span>No Environment</span>
+              <span class="text-vscode-foreground/80">No Environment</span>
               {#if !$activeEnvironmentId}
-                <svg class="w-4 h-4 ml-auto text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="w-4 h-4 ml-auto text-api-primary drop-shadow-[0_0_5px_rgba(var(--api-primary-rgb),0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               {/if}
             </button>
 
             {#if $environments.length > 0}
-              <div class="border-t border-white/10">
+              <div class="border-t border-vscode-border/30">
                 {#each $environments as env (env.id)}
                   <button
-                    class="env-option flex items-center gap-2 w-full px-3 py-2 text-left text-sm group"
+                    class="env-option flex items-center gap-2 w-full px-3 py-2 text-left text-sm group transition-colors duration-200 hover:bg-vscode-list-hover/50"
                     class:env-option-selected={$activeEnvironmentId === env.id}
                     on:click={() => selectEnvironmentFromHeader(env.id)}
                   >
-                    <svg class="w-4 h-4 {$activeEnvironmentId === env.id ? 'text-green-400' : ''}" style={$activeEnvironmentId !== env.id ? 'opacity: 0.5;' : ''} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="w-4 h-4 {$activeEnvironmentId === env.id ? 'text-api-primary drop-shadow-[0_0_5px_rgba(var(--api-primary-rgb),0.5)]' : 'text-vscode-foreground/50 group-hover:text-api-primary/50 transition-colors'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span class="flex-1 truncate">{env.name}</span>
-                    <span class="text-xs" style="opacity: 0.4;">{env.variables.filter(v => v.enabled && v.key).length} vars</span>
+                    <span class="flex-1 truncate text-vscode-foreground/80 group-hover:text-vscode-foreground transition-colors">{env.name}</span>
+                    <span class="text-xs text-vscode-foreground/40">{env.variables.filter(v => v.enabled && v.key).length} vars</span>
                     {#if $activeEnvironmentId === env.id}
-                      <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <svg class="w-4 h-4 text-api-primary drop-shadow-[0_0_5px_rgba(var(--api-primary-rgb),0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     {/if}
@@ -299,9 +299,9 @@
 
             <!-- Edit Active Environment -->
             {#if activeEnvironment}
-              <div class="border-t border-white/10">
+              <div class="border-t border-vscode-border/30">
                 <button
-                  class="env-option flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-vscode-link"
+                  class="env-option flex items-center gap-2 w-full px-3 py-2 text-left text-sm text-api-primary hover:bg-vscode-list-hover/50 transition-colors duration-200"
                   on:click={editActiveEnvironment}
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -314,6 +314,7 @@
           </div>
 
           <!-- Backdrop to close dropdown -->
+          <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
           <div
             class="fixed inset-0 z-40"
             on:click={() => showEnvDropdown = false}
@@ -323,11 +324,11 @@
 
       <!-- Test Runner Button -->
       <button
-        class="test-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all"
+        class="test-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all duration-300 shadow-[0_0_10px_rgba(245,158,11,0.2)] hover:shadow-[0_0_15px_rgba(245,158,11,0.4)]"
         on:click={() => showTestRunner = true}
         title="Run all tests in a collection"
       >
-        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="w-3.5 h-3.5 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -336,7 +337,7 @@
 
       <!-- Import Button -->
       <button
-        class="header-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all"
+        class="header-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all duration-300"
         on:click={() => showImportModal = true}
         title="Import from cURL, Postman, OpenAPI, or HAR"
       >
@@ -348,7 +349,7 @@
 
       <!-- Export Button -->
       <button
-        class="header-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all"
+        class="header-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all duration-300"
         on:click={() => showExportModal = true}
         title="Export collection to OpenAPI, Postman, or Markdown"
       >
@@ -360,16 +361,16 @@
 
       <!-- Save Request Button -->
       <button
-        class="save-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all"
+        class="save-btn flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all duration-300 shadow-[0_0_10px_rgba(16,185,129,0.2)] hover:shadow-[0_0_15px_rgba(16,185,129,0.4)]"
         on:click={handleSaveRequest}
         title="Save Request to Collection"
       >
-        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="w-3.5 h-3.5 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
         </svg>
         Save
       </button>
-      <span class="text-xs text-vscode-foreground/50">v0.1.0</span>
+      <span class="text-xs text-vscode-foreground/50 font-mono">v0.1.0</span>
     </div>
   </header>
 

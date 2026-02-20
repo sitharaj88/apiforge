@@ -81,6 +81,7 @@
   on:mouseenter={handleMouseEnter}
   on:mouseleave={handleMouseLeave}
   role="menu"
+  tabindex="0"
 >
   <!-- Trigger -->
   <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->

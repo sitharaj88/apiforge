@@ -11,7 +11,6 @@
   $: isPrimitive = !isObject && !isArray;
   $: keys = isObject ? Object.keys(data) : [];
   $: items = isArray ? data : [];
-  $: previewLength = isArray ? data.length : keys.length;
 
   function getValueClass(value: any): string {
     if (value === null) return 'json-null';
@@ -83,7 +82,7 @@
         {/if}
         <span class="json-bracket">{isArray ? '[' : '{'}</span>
         {#if collapsed}
-          <span class="json-preview" on:click={() => collapsed = false}>{getPreview(data)}</span>
+          <button type="button" class="json-preview" on:click={() => collapsed = false}>{getPreview(data)}</button>
           <span class="json-bracket">{isArray ? ']' : '}'}</span>
           {#if !isLast}<span class="json-comma">,</span>{/if}
         {/if}
@@ -122,18 +121,27 @@
 
 <style>
   .json-node {
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: var(--vscode-editor-font-family, 'SF Mono', 'Fira Code', 'Consolas', monospace);
     font-size: 13px;
     line-height: 1.6;
   }
 
   .depth-indent {
     margin-left: 1.5rem;
+    border-left: 1px solid rgba(var(--vscode-border-rgb, 128, 128, 128), 0.1);
+    padding-left: 0.5rem;
   }
 
   .json-line {
     display: inline-flex;
     align-items: center;
+    padding: 0.1rem 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+  }
+
+  .json-line:hover {
+    background-color: rgba(var(--vscode-editor-foreground-rgb, 255, 255, 255), 0.05);
   }
 
   .json-container {
@@ -156,11 +164,12 @@
     border-radius: 4px;
     opacity: 0.5;
     transition: all 0.15s;
+    color: var(--vscode-foreground);
   }
 
   .json-toggle:hover {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(var(--vscode-editor-foreground-rgb, 255, 255, 255), 0.1);
   }
 
   .toggle-icon {

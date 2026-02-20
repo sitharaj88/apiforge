@@ -73,54 +73,55 @@
   })();
 </script>
 
-<div class="flex flex-col h-full">
+<div class="flex flex-col h-full bg-vscode-editor-background/30 backdrop-blur-md">
   <!-- Toolbar -->
-  <div class="flex items-center justify-between px-4 py-2 border-b border-vscode-border bg-vscode-sidebar-bg">
-    <div class="flex items-center gap-1">
+  <div class="flex items-center justify-between px-4 py-2.5 border-b border-vscode-border/30 bg-vscode-editor-background/80 backdrop-blur-xl shadow-sm">
+    <div class="flex items-center gap-1.5 bg-vscode-editor-background/50 p-1 rounded-lg border border-vscode-border/30 shadow-inner">
       <button
-        class="view-btn px-2.5 py-1.5 text-xs rounded-lg transition-all"
-        class:view-btn-active={viewMode === 'pretty'}
+        class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 {viewMode === 'pretty' ? 'bg-api-primary text-white' : 'text-vscode-foreground hover:bg-vscode-editor-background/80'}"
+        style={viewMode !== 'pretty' ? 'opacity: 0.7;' : ''}
         on:click={() => viewMode = 'pretty'}
       >
         Pretty
       </button>
       {#if isJson() && parsedJson !== null}
         <button
-          class="view-btn px-2.5 py-1.5 text-xs rounded-lg transition-all"
-          class:view-btn-active={viewMode === 'tree'}
+          class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 {viewMode === 'tree' ? 'bg-api-primary text-white' : 'text-vscode-foreground hover:bg-vscode-editor-background/80'}"
+          style={viewMode !== 'tree' ? 'opacity: 0.7;' : ''}
           on:click={() => viewMode = 'tree'}
         >
           Tree
         </button>
       {/if}
       <button
-        class="view-btn px-2.5 py-1.5 text-xs rounded-lg transition-all"
-        class:view-btn-active={viewMode === 'raw'}
+        class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 {viewMode === 'raw' ? 'bg-api-primary text-white' : 'text-vscode-foreground hover:bg-vscode-editor-background/80'}"
+        style={viewMode !== 'raw' ? 'opacity: 0.7;' : ''}
         on:click={() => viewMode = 'raw'}
       >
         Raw
       </button>
       {#if isHtml()}
         <button
-          class="view-btn px-2.5 py-1.5 text-xs rounded-lg transition-all"
-          class:view-btn-active={viewMode === 'preview'}
+          class="px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 {viewMode === 'preview' ? 'bg-api-primary text-white' : 'text-vscode-foreground hover:bg-vscode-editor-background/80'}"
+          style={viewMode !== 'preview' ? 'opacity: 0.7;' : ''}
           on:click={() => viewMode = 'preview'}
         >
           Preview
         </button>
       {/if}
     </div>
-    <div class="flex items-center gap-3">
-      <label class="flex items-center gap-1.5 text-xs cursor-pointer opacity-70">
-        <input type="checkbox" class="accent-vscode-focus-border" bind:checked={wordWrap} />
+    <div class="flex items-center gap-4">
+      <label class="flex items-center gap-2 text-xs cursor-pointer text-vscode-foreground/70 hover:text-vscode-foreground transition-colors">
+        <input type="checkbox" class="w-3.5 h-3.5 rounded border-vscode-border/50 bg-vscode-editor-background/50 text-api-primary focus:ring-api-primary/50 focus:ring-offset-0 transition-all" bind:checked={wordWrap} />
         Word wrap
       </label>
-      <span class="text-xs opacity-50 uppercase">{language}</span>
+      <div class="w-px h-4 bg-vscode-border/50"></div>
+      <span class="text-[10px] font-semibold text-vscode-foreground/40 uppercase tracking-wider px-2 py-1 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 shadow-inner">{language}</span>
     </div>
   </div>
 
   <!-- Body Content -->
-  <div class="flex-1 overflow-auto body-content">
+  <div class="flex-1 overflow-auto bg-vscode-editor-background/20">
     {#if viewMode === 'preview' && isHtml()}
       <iframe
         class="w-full h-full border-0 bg-white"
@@ -134,7 +135,7 @@
       </div>
     {:else}
       <pre
-        class="p-4 m-0 text-sm font-mono leading-relaxed"
+        class="p-4 m-0 text-sm font-mono leading-relaxed text-vscode-foreground/90"
         class:whitespace-pre-wrap={wordWrap}
         class:whitespace-pre={!wordWrap}
       ><code class="language-{language}">{formattedBody}</code></pre>
@@ -149,32 +150,5 @@
 
   code {
     font-family: var(--vscode-editor-font-family, 'Consolas', 'Courier New', monospace);
-  }
-
-  .view-btn {
-    background: transparent;
-    color: var(--vscode-foreground);
-    opacity: 0.6;
-    border: 1px solid transparent;
-  }
-
-  .view-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-    opacity: 0.9;
-  }
-
-  .view-btn-active {
-    background: rgba(59, 130, 246, 0.15);
-    color: #60a5fa;
-    opacity: 1;
-    border-color: rgba(59, 130, 246, 0.3);
-  }
-
-  .view-btn-active:hover {
-    background: rgba(59, 130, 246, 0.2);
-  }
-
-  .body-content {
-    background: var(--vscode-editor-background);
   }
 </style>

@@ -68,16 +68,16 @@
 </script>
 
 <div
-  class="code-editor border border-vscode-border rounded overflow-hidden bg-vscode-input-bg"
+  class="code-editor border border-vscode-border/30 rounded-xl overflow-hidden bg-vscode-editor-background/30 backdrop-blur-md shadow-inner transition-all duration-200 focus-within:border-api-primary/50 focus-within:ring-1 focus-within:ring-api-primary/50"
   style="min-height: {minHeight}; max-height: {maxHeight};"
 >
   <!-- Toolbar -->
-  <div class="flex items-center justify-between px-2 py-1 border-b border-vscode-border bg-vscode-sidebar-bg">
-    <span class="text-xs text-vscode-foreground uppercase" style="opacity: 0.5;">{language}</span>
+  <div class="flex items-center justify-between px-3 py-2 border-b border-vscode-border/30 bg-vscode-editor-background/80 backdrop-blur-xl">
+    <span class="text-[10px] font-semibold text-vscode-foreground/50 uppercase tracking-wider px-2 py-1 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 shadow-inner">{language}</span>
     <div class="flex items-center gap-2">
       {#if language === 'json'}
         <button
-          class="text-xs text-vscode-link hover:text-vscode-link-hover"
+          class="text-xs font-medium text-vscode-foreground/70 hover:text-api-primary transition-colors px-2.5 py-1 rounded-md hover:bg-api-primary/10"
           on:click={formatCode}
           title="Format JSON"
         >
@@ -88,21 +88,21 @@
   </div>
 
   <!-- Editor -->
-  <div class="flex overflow-auto" style="max-height: calc({maxHeight} - 32px);">
+  <div class="flex overflow-auto bg-vscode-editor-background/20" style="max-height: calc({maxHeight} - 32px);">
     {#if showLineNumbers}
       <div
         bind:this={lineNumbersEl}
-        class="line-numbers flex-shrink-0 px-2 py-2 text-right select-none bg-vscode-sidebar-bg border-r border-vscode-border overflow-hidden"
+        class="line-numbers flex-shrink-0 px-3 py-3 text-right select-none bg-vscode-editor-background/30 border-r border-vscode-border/20 overflow-hidden"
       >
         {#each lineNumbers as num}
-          <div class="text-xs leading-5 text-vscode-foreground" style="opacity: 0.4;">{num}</div>
+          <div class="text-xs leading-6 text-vscode-foreground/30">{num}</div>
         {/each}
       </div>
     {/if}
     <textarea
       bind:this={textarea}
       bind:value
-      class="flex-1 p-2 font-mono text-sm leading-5 resize-none outline-none bg-transparent text-vscode-foreground"
+      class="flex-1 p-3 font-mono text-sm leading-6 resize-none outline-none bg-transparent text-vscode-foreground/90 placeholder-vscode-foreground/30"
       class:readonly
       {placeholder}
       {readonly}
@@ -115,7 +115,7 @@
 
 <style>
   .code-editor {
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, 'Liberation Mono', 'Courier New', monospace;
+    font-family: var(--vscode-editor-font-family, 'SF Mono', Monaco, 'Cascadia Code', Consolas, 'Liberation Mono', 'Courier New', monospace);
   }
 
   textarea {
@@ -130,6 +130,6 @@
   }
 
   .line-numbers {
-    min-width: 2.5rem;
+    min-width: 3rem;
   }
 </style>

@@ -63,7 +63,7 @@
 <div class="space-y-6 p-4">
   <!-- Auth Type Selector -->
   <div class="space-y-2">
-    <label class="text-xs font-medium text-vscode-foreground/70 uppercase tracking-wider">Authentication Type</label>
+    <span class="text-xs font-medium text-vscode-foreground/70 uppercase tracking-wider">Authentication Type</span>
     <div class="relative">
       <select
         class="select w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -94,7 +94,7 @@
     {:else if $activeRequest.auth.type === 'basic'}
       <div class="space-y-4">
         <div class="space-y-1.5">
-          <label class="text-xs font-medium text-vscode-foreground/70">Username</label>
+          <span class="text-xs font-medium text-vscode-foreground/70">Username</span>
           <input
             type="text"
             class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -103,7 +103,7 @@
           />
         </div>
         <div class="space-y-1.5">
-          <label class="text-xs font-medium text-vscode-foreground/70">Password</label>
+          <span class="text-xs font-medium text-vscode-foreground/70">Password</span>
           <input
             type="password"
             class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -123,7 +123,7 @@
     {:else if $activeRequest.auth.type === 'bearer'}
       <div class="space-y-4">
         <div class="space-y-1.5">
-          <label class="text-xs font-medium text-vscode-foreground/70">Token</label>
+          <span class="text-xs font-medium text-vscode-foreground/70">Token</span>
           <textarea
             class="input w-full font-mono text-sm min-h-[120px] resize-y bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
             placeholder="Enter bearer token (JWT, OAuth token, etc.)"
@@ -143,7 +143,7 @@
       <div class="space-y-4">
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-1.5">
-            <label class="text-xs font-medium text-vscode-foreground/70">Key Name</label>
+            <span class="text-xs font-medium text-vscode-foreground/70">Key Name</span>
             <input
               type="text"
               class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -152,7 +152,7 @@
             />
           </div>
           <div class="space-y-1.5">
-            <label class="text-xs font-medium text-vscode-foreground/70">Add to</label>
+            <span class="text-xs font-medium text-vscode-foreground/70">Add to</span>
             <select class="select w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200" bind:value={$activeRequest.auth.apiKey!.addTo}>
               <option value="header">Header</option>
           <option value="query">Query Parameter</option>
@@ -160,7 +160,7 @@
       </div>
     </div>
     <div class="space-y-1.5 mt-4">
-      <label class="text-xs font-medium text-vscode-foreground/70">Value</label>
+      <span class="text-xs font-medium text-vscode-foreground/70">Value</span>
       <input
         type="password"
         class="input w-full font-mono bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -173,7 +173,7 @@
     <div class="space-y-5">
       <!-- Grant Type -->
       <div class="space-y-1.5">
-        <label class="text-xs font-medium text-vscode-foreground/70">Grant Type</label>
+        <span class="text-xs font-medium text-vscode-foreground/70">Grant Type</span>
         <select class="select w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200" bind:value={oauth2Config.grantType}>
           {#each grantTypes as grant}
             <option value={grant.id}>{grant.label}</option>
@@ -187,7 +187,7 @@
       <!-- Authorization URL (for auth code flows) -->
       {#if needsAuthUrl}
         <div class="space-y-1.5">
-          <label class="text-xs font-medium text-vscode-foreground/70">Authorization URL</label>
+          <span class="text-xs font-medium text-vscode-foreground/70">Authorization URL</span>
           <input
             type="url"
             class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -199,7 +199,7 @@
 
       <!-- Token URL -->
       <div class="space-y-1.5">
-        <label class="text-xs font-medium text-vscode-foreground/70">Token URL</label>
+        <span class="text-xs font-medium text-vscode-foreground/70">Token URL</span>
         <input
           type="url"
           class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -210,7 +210,7 @@
 
       <!-- Client ID -->
       <div class="space-y-1.5">
-        <label class="text-xs font-medium text-vscode-foreground/70">Client ID</label>
+        <span class="text-xs font-medium text-vscode-foreground/70">Client ID</span>
         <input
           type="text"
           class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -221,7 +221,7 @@
 
       <!-- Client Secret -->
       <div class="space-y-1.5">
-        <label class="text-xs font-medium text-vscode-foreground/70">Client Secret <span class="opacity-50 font-normal">(optional for PKCE)</span></label>
+        <span class="text-xs font-medium text-vscode-foreground/70">Client Secret <span class="opacity-50 font-normal">(optional for PKCE)</span></span>
         <input
           type="password"
           class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -234,7 +234,7 @@
       {#if needsCredentials}
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-1.5">
-            <label class="text-xs font-medium text-vscode-foreground/70">Username</label>
+            <span class="text-xs font-medium text-vscode-foreground/70">Username</span>
             <input
               type="text"
               class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -243,7 +243,7 @@
             />
           </div>
           <div class="space-y-1.5">
-            <label class="text-xs font-medium text-vscode-foreground/70">Password</label>
+            <span class="text-xs font-medium text-vscode-foreground/70">Password</span>
             <input
               type="password"
               class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -256,7 +256,7 @@
 
       <!-- Scope -->
       <div class="space-y-1.5">
-        <label class="text-xs font-medium text-vscode-foreground/70">Scope <span class="opacity-50 font-normal">(space-separated)</span></label>
+        <span class="text-xs font-medium text-vscode-foreground/70">Scope <span class="opacity-50 font-normal">(space-separated)</span></span>
         <input
           type="text"
           class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"
@@ -268,7 +268,7 @@
       <!-- Callback URL -->
       {#if needsAuthUrl}
         <div class="space-y-1.5">
-          <label class="text-xs font-medium text-vscode-foreground/70">Callback URL</label>
+          <span class="text-xs font-medium text-vscode-foreground/70">Callback URL</span>
           <input
             type="url"
             class="input w-full bg-vscode-editor-background/50 backdrop-blur-sm border-vscode-border/30 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200"

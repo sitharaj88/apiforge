@@ -54,12 +54,12 @@
   }
 </script>
 
-<div class="flex flex-col h-full bg-vscode-sidebar-bg/50 backdrop-blur-sm">
+<div class="flex flex-col h-full bg-vscode-sidebar-bg/30 backdrop-blur-xl border-r border-vscode-border/30 shadow-[4px_0_24px_rgba(0,0,0,0.1)]">
   <!-- Header -->
-  <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border bg-vscode-editor-background/30">
-    <span class="text-xs font-semibold text-vscode-foreground/70 uppercase tracking-wider">Collections</span>
+  <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/40 backdrop-blur-md">
+    <span class="text-xs font-semibold text-vscode-foreground/80 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">Collections</span>
     <button
-      class="p-1.5 rounded-md hover:bg-blue-500/10 text-vscode-foreground/70 hover:text-blue-400 transition-all duration-200"
+      class="p-1.5 rounded-md hover:bg-api-primary/20 text-vscode-foreground/70 hover:text-api-primary transition-all duration-300 hover:shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.3)]"
       title="New Collection"
       on:click={() => showNewCollectionInput = true}
     >
@@ -71,11 +71,11 @@
 
   <!-- New Collection Input -->
   {#if showNewCollectionInput}
-    <div class="px-4 py-3 border-b border-vscode-border bg-vscode-editor-background/50 shadow-inner">
+    <div class="px-4 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/50 backdrop-blur-md shadow-inner">
       <!-- svelte-ignore a11y_autofocus -->
       <input
         type="text"
-        class="input w-full text-sm py-1.5 px-3 bg-vscode-editor-background border-vscode-border focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all duration-200"
+        class="input w-full text-sm py-1.5 px-3 bg-vscode-editor-background/50 border-vscode-border/50 focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-300 shadow-inner"
         placeholder="Collection name..."
         bind:value={newCollectionName}
         on:keydown={(e) => {
@@ -85,24 +85,24 @@
         autofocus
       />
       <div class="flex gap-2 mt-3">
-        <button class="btn btn-primary py-1.5 px-3 text-xs flex-1 shadow-sm" on:click={createCollection}>Create</button>
-        <button class="btn btn-secondary py-1.5 px-3 text-xs flex-1" on:click={() => showNewCollectionInput = false}>Cancel</button>
+        <button class="btn btn-primary py-1.5 px-3 text-xs flex-1 shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.3)] hover:shadow-[0_0_15px_rgba(var(--api-primary-rgb),0.5)] transition-all duration-300" on:click={createCollection}>Create</button>
+        <button class="btn btn-secondary py-1.5 px-3 text-xs flex-1 bg-vscode-editor-background/50 hover:bg-vscode-editor-background/80 border border-vscode-border/50 transition-all duration-300" on:click={() => showNewCollectionInput = false}>Cancel</button>
       </div>
     </div>
   {/if}
 
   <!-- Collections List -->
-  <div class="flex-1 overflow-auto py-2">
+  <div class="flex-1 overflow-auto py-2 custom-scrollbar">
     {#if collections.length === 0}
       <div class="flex flex-col items-center justify-center h-full p-6 text-center text-vscode-foreground/50">
-        <div class="w-16 h-16 mb-4 rounded-full bg-vscode-editor-background/50 flex items-center justify-center border border-vscode-border shadow-sm">
+        <div class="w-16 h-16 mb-4 rounded-full bg-vscode-editor-background/30 backdrop-blur-sm flex items-center justify-center border border-vscode-border/30 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
           <svg class="w-8 h-8 text-vscode-foreground/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
           </svg>
         </div>
         <p class="text-sm font-medium text-vscode-foreground/70">No collections yet</p>
         <button
-          class="text-sm text-blue-400 mt-2 hover:text-blue-300 hover:underline transition-colors"
+          class="text-sm text-api-primary mt-2 hover:text-api-purple hover:underline transition-colors drop-shadow-[0_0_8px_rgba(var(--api-primary-rgb),0.5)]"
           on:click={() => showNewCollectionInput = true}
         >
           Create your first collection
@@ -111,7 +111,7 @@
     {:else}
       <div class="space-y-1 px-2">
       {#each collections as collection (collection.id)}
-        <div class="rounded-lg overflow-hidden border border-transparent hover:border-vscode-border/50 transition-colors duration-200">
+        <div class="rounded-lg overflow-hidden border border-transparent hover:border-vscode-border/30 hover:bg-vscode-editor-background/30 transition-all duration-300">
           <!-- Collection Header -->
           <div
             class="flex items-center gap-2.5 w-full px-3 py-2 hover:bg-vscode-list-hover/50 group cursor-pointer rounded-md transition-colors duration-150"
@@ -130,11 +130,11 @@
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
-            <svg class="w-4.5 h-4.5 text-blue-400/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-4.5 h-4.5 text-api-primary/80 drop-shadow-[0_0_5px_rgba(var(--api-primary-rgb),0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
             </svg>
-            <span class="flex-1 text-sm font-medium text-left text-vscode-foreground/90 truncate">{collection.name}</span>
-            <span class="text-xs font-medium px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 text-vscode-foreground/50 border border-vscode-border/50">{collection.requests.length}</span>
+            <span class="flex-1 text-sm font-medium text-left text-vscode-foreground/90 truncate group-hover:text-api-primary transition-colors duration-200">{collection.name}</span>
+            <span class="text-xs font-medium px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 text-vscode-foreground/50 border border-vscode-border/30 shadow-inner">{collection.requests.length}</span>
             <button
               class="p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-red-500/10 text-vscode-foreground/40 hover:text-red-400 transition-all duration-200"
               title="Delete collection"
@@ -148,17 +148,17 @@
 
           <!-- Requests -->
           {#if expandedCollections.has(collection.id)}
-            <div class="bg-vscode-editor-background/20 pb-1">
+            <div class="bg-vscode-editor-background/10 pb-1 border-l-2 border-api-primary/20 ml-4 pl-1 mt-1">
               {#each collection.requests as request (request.id)}
                 <div
-                  class="flex items-center gap-3 w-full px-3 py-1.5 pl-10 hover:bg-vscode-list-hover/50 group cursor-pointer transition-colors duration-150"
+                  class="flex items-center gap-3 w-full px-3 py-1.5 hover:bg-vscode-list-hover/50 group cursor-pointer transition-colors duration-150 rounded-md"
                   role="button"
                   tabindex="0"
                   on:click={() => dispatch('selectRequest', { collectionId: collection.id, request })}
                   on:keydown={(e) => e.key === 'Enter' && dispatch('selectRequest', { collectionId: collection.id, request })}
                 >
-                  <span class="text-[10px] font-mono font-bold w-12 {getMethodColor(request.method)}">{request.method}</span>
-                  <span class="flex-1 text-xs text-left text-vscode-foreground/80 truncate">{request.name}</span>
+                  <span class="text-[10px] font-mono font-bold w-12 {getMethodColor(request.method)} drop-shadow-[0_0_5px_currentColor]">{request.method}</span>
+                  <span class="flex-1 text-xs text-left text-vscode-foreground/80 truncate group-hover:text-vscode-foreground transition-colors duration-200">{request.name}</span>
                   <button
                     class="p-1 rounded-md opacity-0 group-hover:opacity-100 hover:bg-red-500/10 text-vscode-foreground/40 hover:text-red-400 transition-all duration-200"
                     title="Delete request"
@@ -171,7 +171,7 @@
                 </div>
               {/each}
               {#if collection.requests.length === 0}
-                <div class="px-3 py-2 pl-10 text-xs text-vscode-foreground/40 italic">
+                <div class="px-3 py-2 text-xs text-vscode-foreground/40 italic">
                   No requests
                 </div>
               {/if}

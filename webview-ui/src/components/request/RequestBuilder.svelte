@@ -47,7 +47,7 @@
   $: currentTabs = protocol === 'http' ? httpTabs : protocol === 'graphql' ? graphqlTabs : [];
 
   function handleTabChange(tabId: string) {
-    activeTab.set(tabId);
+    activeTab.set(tabId as 'params' | 'headers' | 'body' | 'auth' | 'scripts' | 'assertions' | 'query');
   }
 
   function handleProtocolChange(newProtocol: Protocol) {
@@ -118,25 +118,25 @@
   }
 </script>
 
-<div class="flex flex-col h-full bg-vscode-editor-background">
+<div class="flex flex-col h-full bg-vscode-editor-background/30 backdrop-blur-xl">
   <!-- Protocol Selector -->
-  <div class="flex items-center gap-3 px-6 py-3 border-b border-vscode-border bg-vscode-sidebar-bg/50 backdrop-blur-sm">
-    <span class="text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider">Protocol</span>
-    <div class="flex rounded-lg overflow-hidden border border-vscode-border bg-vscode-editor-background/50 shadow-sm">
+  <div class="flex items-center gap-3 px-6 py-3 border-b border-vscode-border/30 bg-vscode-sidebar-bg/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.1)]">
+    <span class="text-xs font-semibold text-vscode-foreground/70 uppercase tracking-wider">Protocol</span>
+    <div class="flex rounded-xl overflow-hidden border border-vscode-border/30 bg-vscode-editor-background/40 shadow-sm backdrop-blur-sm p-0.5">
       <button
-        class="px-4 py-1.5 text-xs font-medium transition-all duration-200 {protocol === 'http' ? 'bg-blue-500/10 text-blue-400 shadow-inner' : 'text-vscode-foreground hover:bg-vscode-list-hover'}"
+        class="px-4 py-1.5 text-xs font-medium rounded-lg transition-all duration-300 {protocol === 'http' ? 'bg-blue-500/20 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)] ring-1 ring-blue-500/30' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-list-hover/50'}"
         on:click={() => handleProtocolChange('http')}
       >
         HTTP
       </button>
       <button
-        class="px-4 py-1.5 text-xs font-medium border-l border-vscode-border transition-all duration-200 {protocol === 'graphql' ? 'bg-purple-500/10 text-purple-400 shadow-inner' : 'text-vscode-foreground hover:bg-vscode-list-hover'}"
+        class="px-4 py-1.5 text-xs font-medium rounded-lg transition-all duration-300 {protocol === 'graphql' ? 'bg-purple-500/20 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)] ring-1 ring-purple-500/30' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-list-hover/50'}"
         on:click={() => handleProtocolChange('graphql')}
       >
         GraphQL
       </button>
       <button
-        class="px-4 py-1.5 text-xs font-medium border-l border-vscode-border transition-all duration-200 {protocol === 'websocket' ? 'bg-green-500/10 text-green-400 shadow-inner' : 'text-vscode-foreground hover:bg-vscode-list-hover'}"
+        class="px-4 py-1.5 text-xs font-medium rounded-lg transition-all duration-300 {protocol === 'websocket' ? 'bg-green-500/20 text-green-400 shadow-[0_0_15px_rgba(34,197,94,0.15)] ring-1 ring-green-500/30' : 'text-vscode-foreground/60 hover:text-vscode-foreground hover:bg-vscode-list-hover/50'}"
         on:click={() => handleProtocolChange('websocket')}
       >
         WebSocket
@@ -160,11 +160,11 @@
     />
   {:else}
     <!-- URL Bar (HTTP and GraphQL) -->
-    <div class="p-6 border-b border-vscode-border bg-vscode-editor-background/30">
+    <div class="p-6 border-b border-vscode-border/30 bg-vscode-editor-background/20 backdrop-blur-sm">
       <UrlBar />
 
       {#if $error}
-        <div class="mt-4 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400 flex items-start gap-2 shadow-sm">
+        <div class="mt-4 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-xl text-sm text-red-400 flex items-start gap-3 shadow-[0_0_20px_rgba(239,68,68,0.1)] backdrop-blur-md">
           <svg class="w-5 h-5 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
@@ -174,22 +174,27 @@
     </div>
 
     <!-- Tabs -->
-    <div class="flex items-center gap-2 px-6 border-b border-vscode-border bg-vscode-sidebar-bg/30">
+    <div class="flex items-center gap-2 px-6 border-b border-vscode-border/30 bg-vscode-sidebar-bg/20 backdrop-blur-sm">
       {#each currentTabs as tab}
         <button
-          class="tab"
-          class:tab-active={$activeTab === tab.id}
+          class="tab relative px-4 py-3 text-sm font-medium transition-all duration-200 hover:text-vscode-foreground {$activeTab === tab.id ? 'text-vscode-foreground' : 'text-vscode-foreground/60'}"
           on:click={() => handleTabChange(tab.id)}
         >
-          {tab.label}
-          {#if tab.id === 'params' && getParamsCount() > 0}
-            <span class="ml-1.5 badge">{getParamsCount()}</span>
-          {:else if tab.id === 'headers' && getHeadersCount() > 0}
-            <span class="ml-1.5 badge">{getHeadersCount()}</span>
-          {:else if tab.id === 'scripts' && (preScript.trim() || postScript.trim())}
-            <span class="ml-1.5 w-2 h-2 rounded-full bg-blue-400 inline-block shadow-[0_0_8px_rgba(96,165,250,0.6)]"></span>
-          {:else if tab.id === 'assertions' && assertions.length > 0}
-            <span class="ml-1.5 badge">{assertions.length}</span>
+          <span class="relative z-10 flex items-center gap-2">
+            {tab.label}
+            {#if tab.id === 'params' && getParamsCount() > 0}
+              <span class="px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 text-[10px] font-bold shadow-sm">{getParamsCount()}</span>
+            {:else if tab.id === 'headers' && getHeadersCount() > 0}
+              <span class="px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 text-[10px] font-bold shadow-sm">{getHeadersCount()}</span>
+            {:else if tab.id === 'scripts' && (preScript.trim() || postScript.trim())}
+              <span class="w-2 h-2 rounded-full bg-blue-400 inline-block shadow-[0_0_8px_rgba(96,165,250,0.8)] animate-pulse"></span>
+            {:else if tab.id === 'assertions' && assertions.length > 0}
+              <span class="px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 border border-vscode-border/30 text-[10px] font-bold shadow-sm">{assertions.length}</span>
+            {/if}
+          </span>
+          {#if $activeTab === tab.id}
+            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_-2px_10px_rgba(59,130,246,0.5)]"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent opacity-50"></div>
           {/if}
         </button>
       {/each}
@@ -203,8 +208,8 @@
             query={graphqlQuery}
             variables={graphqlVariables}
             schema={$graphqlSchema}
-            on:queryChange={(e) => graphqlQuery = e.detail}
-            on:variablesChange={(e) => graphqlVariables = e.detail}
+            on:queryChange={(e: CustomEvent<string>) => graphqlQuery = e.detail}
+            on:variablesChange={(e: CustomEvent<string>) => graphqlVariables = e.detail}
             on:introspect={handleIntrospect}
           />
         {:else if $activeTab === 'headers'}
@@ -253,8 +258,8 @@
           <ScriptEditor
             {preScript}
             {postScript}
-            on:preScriptChange={(e) => preScript = e.detail}
-            on:postScriptChange={(e) => postScript = e.detail}
+            on:preScriptChange={(e: CustomEvent<string>) => preScript = e.detail}
+            on:postScriptChange={(e: CustomEvent<string>) => postScript = e.detail}
           />
         {:else if $activeTab === 'assertions'}
           <AssertionEditor

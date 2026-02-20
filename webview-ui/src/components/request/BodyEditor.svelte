@@ -1,6 +1,5 @@
 <script lang="ts">
   import { activeRequest, generateId, type BodyType, type KeyValue } from '../../lib/stores';
-  import { vscode } from '../../lib/vscode-api';
 
   const bodyTypes: { id: BodyType; label: string }[] = [
     { id: 'none', label: 'None' },
@@ -187,13 +186,7 @@
   <div class="flex items-center gap-2 flex-wrap bg-vscode-editor-background/30 p-1.5 rounded-xl border border-vscode-border/20 backdrop-blur-md w-fit">
     {#each bodyTypes as type}
       <button
-        class="px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200"
-        class:bg-api-primary={$activeRequest.bodyType === type.id}
-        class:text-white={$activeRequest.bodyType === type.id}
-        class:shadow-[0_0_10px_rgba(var(--api-primary-rgb),0.3)]={$activeRequest.bodyType === type.id}
-        class:text-vscode-foreground/70={$activeRequest.bodyType !== type.id}
-        class:hover:text-vscode-foreground={$activeRequest.bodyType !== type.id}
-        class:hover:bg-vscode-editor-background/50={$activeRequest.bodyType !== type.id}
+        class="px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 {$activeRequest.bodyType === type.id ? 'bg-api-primary text-white' : 'text-vscode-foreground/70 hover:text-vscode-foreground hover:bg-vscode-editor-background/50'}"
         on:click={() => handleBodyTypeChange(type.id)}
       >
         {type.label}
@@ -267,9 +260,9 @@
         </div>
 
       <!-- Form Data Table -->
-      <div class="border border-vscode-input-border rounded-vscode overflow-hidden">
+      <div class="border border-vscode-border/30 rounded-xl overflow-hidden bg-vscode-editor-background/50 backdrop-blur-sm shadow-inner">
         <!-- Header -->
-        <div class="grid grid-cols-[auto_1fr_1fr_auto] gap-2 px-3 py-2 bg-vscode-editor-bg text-xs font-medium text-vscode-foreground opacity-70 border-b border-vscode-input-border">
+        <div class="grid grid-cols-[auto_1fr_1fr_auto] gap-3 px-4 py-2.5 bg-vscode-editor-background/80 text-xs font-medium text-vscode-foreground/70 border-b border-vscode-border/30 uppercase tracking-wider">
           <div class="w-6"></div>
           <div>KEY</div>
           <div>VALUE</div>
@@ -279,11 +272,11 @@
         <!-- Rows -->
         <div class="max-h-[240px] overflow-auto">
           {#each formDataItems as item, index (item.id)}
-            <div class="grid grid-cols-[auto_1fr_1fr_auto] gap-2 px-3 py-2 border-b border-vscode-input-border last:border-b-0 hover:bg-vscode-list-hover group">
+            <div class="grid grid-cols-[auto_1fr_1fr_auto] gap-3 px-4 py-2 border-b border-vscode-border/20 last:border-b-0 hover:bg-vscode-list-hover/30 transition-colors group items-center">
               <!-- Enable/Disable -->
               <button
                 type="button"
-                class="w-6 h-6 rounded flex items-center justify-center transition-colors {item.enabled ? 'text-green-400' : 'text-vscode-foreground opacity-30'}"
+                class="w-6 h-6 rounded-md flex items-center justify-center transition-all duration-200 {item.enabled ? 'text-api-primary bg-api-primary/10 shadow-[0_0_8px_rgba(var(--api-primary-rgb),0.2)]' : 'text-vscode-foreground/30 hover:bg-vscode-editor-background/80'}"
                 on:click={() => toggleFormDataItem(index)}
                 title={item.enabled ? 'Disable' : 'Enable'}
               >
@@ -302,7 +295,7 @@
                 value={item.key}
                 on:input={(e) => updateFormDataKey(index, e.currentTarget.value)}
                 placeholder="key"
-                class="input-sm w-full font-mono {!item.enabled ? 'opacity-50' : ''}"
+                class="input-sm w-full font-mono bg-transparent border-transparent focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200 {!item.enabled ? 'opacity-50' : ''}"
               />
 
               <!-- Value Input -->
@@ -311,13 +304,13 @@
                 value={item.value}
                 on:input={(e) => updateFormDataValue(index, e.currentTarget.value)}
                 placeholder="value"
-                class="input-sm w-full font-mono {!item.enabled ? 'opacity-50' : ''}"
+                class="input-sm w-full font-mono bg-transparent border-transparent focus:border-api-primary/50 focus:ring-1 focus:ring-api-primary/50 transition-all duration-200 {!item.enabled ? 'opacity-50' : ''}"
               />
 
               <!-- Delete Button -->
               <button
                 type="button"
-                class="w-8 h-6 rounded flex items-center justify-center text-vscode-foreground opacity-0 group-hover:opacity-60 hover:!opacity-100 hover:text-red-400 transition-all {formDataItems.length <= 1 ? '!opacity-30 cursor-not-allowed' : ''}"
+                class="w-8 h-8 rounded-md flex items-center justify-center text-vscode-foreground/40 opacity-0 group-hover:opacity-100 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 {formDataItems.length <= 1 ? '!opacity-30 cursor-not-allowed hover:bg-transparent hover:text-vscode-foreground/40' : ''}"
                 on:click={() => removeFormDataItem(index)}
                 disabled={formDataItems.length <= 1}
                 title="Remove"
@@ -331,40 +324,46 @@
         </div>
       </div>
 
-      <p class="text-xs text-vscode-foreground opacity-40">
-        {#if $activeRequest.bodyType === 'form-data'}
-          Content-Type: multipart/form-data
-        {:else}
-          Content-Type: application/x-www-form-urlencoded
-        {/if}
-      </p>
+      <div class="flex items-start gap-2 mt-4 p-3 rounded-lg bg-api-primary/5 border border-api-primary/10">
+        <svg class="w-4 h-4 text-api-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-xs text-vscode-foreground/60 leading-relaxed">
+          {#if $activeRequest.bodyType === 'form-data'}
+            Content-Type: <code class="px-1 py-0.5 rounded bg-vscode-editor-background/50 text-api-primary">multipart/form-data</code>
+          {:else}
+            Content-Type: <code class="px-1 py-0.5 rounded bg-vscode-editor-background/50 text-api-primary">application/x-www-form-urlencoded</code>
+          {/if}
+        </p>
+      </div>
     </div>
   {:else if $activeRequest.bodyType === 'binary'}
-    <div class="space-y-4">
-      <span class="text-xs text-vscode-foreground opacity-70">Binary File</span>
+    <div class="space-y-4 h-full flex flex-col">
+      <span class="text-xs font-medium text-vscode-foreground/70 uppercase tracking-wider">Binary File</span>
 
       {#if selectedFile}
         <!-- Selected File Display -->
-        <div class="p-4 rounded-lg bg-vscode-input-bg border border-vscode-input-border">
-          <div class="flex items-start gap-3">
+        <div class="p-5 rounded-xl bg-vscode-editor-background/50 backdrop-blur-sm border border-vscode-border/30 shadow-inner">
+          <div class="flex items-start gap-4">
             <!-- File Icon -->
-            <div class="p-2 rounded-lg bg-vscode-button-bg/20">
-              <svg class="w-8 h-8 text-vscode-foreground opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <div class="p-3 rounded-xl bg-gradient-to-br from-api-primary/20 to-api-purple/20 border border-api-primary/20 shadow-[0_0_15px_rgba(var(--api-primary-rgb),0.1)]">
+              <svg class="w-8 h-8 text-api-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
               </svg>
             </div>
 
             <!-- File Info -->
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 pt-1">
               <p class="text-sm font-medium text-vscode-foreground truncate">{selectedFile.name}</p>
-              <p class="text-xs text-vscode-foreground opacity-50 mt-0.5">
-                {formatFileSize(selectedFile.size)} · {selectedFile.type}
+              <p class="text-xs text-vscode-foreground/50 mt-1 flex items-center gap-2">
+                <span class="px-1.5 py-0.5 rounded bg-vscode-editor-background/50 border border-vscode-border/30">{formatFileSize(selectedFile.size)}</span>
+                <span class="px-1.5 py-0.5 rounded bg-vscode-editor-background/50 border border-vscode-border/30">{selectedFile.type}</span>
               </p>
             </div>
 
             <!-- Remove Button -->
             <button
-              class="p-1.5 rounded hover:bg-red-500/20 text-vscode-foreground opacity-60 hover:opacity-100 hover:text-red-400 transition-colors"
+              class="p-2 rounded-lg hover:bg-red-500/10 text-vscode-foreground/40 hover:text-red-400 transition-all duration-200"
               on:click={clearFile}
               title="Remove file"
             >
@@ -382,8 +381,8 @@
             class="hidden"
             on:change={handleFileSelect}
           />
-          <span class="inline-flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-vscode-input-bg hover:bg-vscode-list-hover text-vscode-foreground cursor-pointer transition-colors">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <span class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg bg-vscode-editor-background/50 border border-vscode-border/30 hover:bg-vscode-editor-background/80 hover:border-api-primary/50 text-vscode-foreground cursor-pointer transition-all duration-200 shadow-sm">
+            <svg class="w-4 h-4 text-api-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
             Change File
@@ -391,27 +390,35 @@
         </label>
       {:else}
         <!-- File Drop Zone -->
-        <label class="block">
+        <label class="block flex-1">
           <input
             type="file"
             class="hidden"
             on:change={handleFileSelect}
           />
-          <div class="border-2 border-dashed border-vscode-input-border rounded-lg p-8 text-center cursor-pointer hover:border-vscode-focus-border hover:bg-vscode-list-hover/30 transition-colors">
-            <svg class="w-12 h-12 mx-auto mb-3 text-vscode-foreground opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-            </svg>
-            <p class="text-sm text-vscode-foreground">Click to select a file</p>
-            <p class="text-xs text-vscode-foreground opacity-50 mt-1">or drag and drop</p>
+          <div class="h-full min-h-[200px] border-2 border-dashed border-vscode-border/30 rounded-xl p-8 text-center cursor-pointer hover:border-api-primary/50 hover:bg-api-primary/5 transition-all duration-300 flex flex-col items-center justify-center group">
+            <div class="w-16 h-16 rounded-full bg-vscode-editor-background/50 flex items-center justify-center mb-4 shadow-inner border border-vscode-border/30 group-hover:scale-110 group-hover:border-api-primary/30 transition-all duration-300">
+              <svg class="w-8 h-8 text-vscode-foreground/30 group-hover:text-api-primary transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+            </div>
+            <p class="text-sm font-medium text-vscode-foreground/80">Click to select a file</p>
+            <p class="text-xs text-vscode-foreground/50 mt-1">or drag and drop</p>
           </div>
         </label>
       {/if}
 
-      <p class="text-xs text-vscode-foreground opacity-40">
-        The file will be sent as the raw request body with the appropriate Content-Type header.
-      </p>
+      <div class="flex items-start gap-2 mt-4 p-3 rounded-lg bg-api-primary/5 border border-api-primary/10">
+        <svg class="w-4 h-4 text-api-primary mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-xs text-vscode-foreground/60 leading-relaxed">
+          The file will be sent as the raw request body with the appropriate <code class="px-1 py-0.5 rounded bg-vscode-editor-background/50 text-api-primary">Content-Type</code> header.
+        </p>
+      </div>
     </div>
   {/if}
+  </div>
 </div>
 
 <style>
