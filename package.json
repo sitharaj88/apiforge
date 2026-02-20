@@ -2,12 +2,20 @@
   "name": "apiforge",
   "displayName": "APIForge",
   "description": "Enterprise-level API testing tool for VS Code - Modern UI for REST, GraphQL, WebSocket & gRPC",
-  "version": "0.1.0",
-  "publisher": "apiforge",
-  "license": "MIT",
+  "version": "1.0.0",
+  "publisher": "sitharaj",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Sitharaj Seenivasan",
+    "url": "https://github.com/sitharaj88"
+  },
+  "homepage": "https://github.com/sitharaj88/apiforge",
+  "bugs": {
+    "url": "https://github.com/sitharaj88/apiforge/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/apiforge/vscode-apiforge"
+    "url": "https://github.com/sitharaj88/apiforge"
   },
   "engines": {
     "vscode": "^1.85.0"

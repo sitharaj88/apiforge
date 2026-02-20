@@ -1,73 +1,91 @@
 # APIForge
 
 <p align="center">
-  <img src="media/apiforge-icon.svg" alt="APIForge Logo" width="128" height="128">
+  <img src="media/icon.png" alt="APIForge Logo" width="128" height="128">
 </p>
 
 <p align="center">
   <strong>Enterprise-level API testing tool for VS Code</strong>
 </p>
 
-<p align="center">
-  A modern, feature-rich API client built directly into Visual Studio Code. Test REST, GraphQL, WebSocket, and gRPC APIs without leaving your editor.
-</p>
+[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/sitharaj.apiforge?label=VS%20Marketplace&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=sitharaj.apiforge)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/sitharaj88/apiforge/blob/main/LICENSE)
+[![GitHub Issues](https://img.shields.io/github/issues/sitharaj88/apiforge)](https://github.com/sitharaj88/apiforge/issues)
+
+A modern, feature-rich API client built directly into Visual Studio Code. Test REST, GraphQL, WebSocket, and gRPC APIs without leaving your editor.
+
+---
 
 ## Features
 
-### Core Features
+### Comprehensive Protocol Support
 
-- **Modern UI** - Beautiful, intuitive interface that matches VS Code's theme
-- **HTTP Methods** - Support for GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS
-- **Request Builder** - Visual editor for headers, query params, and body
-- **Response Viewer** - Syntax-highlighted response body with headers and cookies
+- **REST APIs** — Full support for all HTTP methods (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).
+- **GraphQL** — Built-in query editor with syntax highlighting, variables support, and schema introspection.
+- **WebSocket** — Real-time, persistent WebSocket connections with message history and event logging.
+- **gRPC** — Protocol buffer support *(coming soon)*.
 
-### Authentication
+### Modern, Native UI
 
-- No Auth
-- Basic Authentication
+- **Seamless Integration** — Built with Svelte and Tailwind CSS to perfectly match your active VS Code theme (dark, light, high contrast).
+- **Split Panes** — View your request and response side-by-side.
+- **Syntax Highlighting** — Beautifully formatted JSON, XML, HTML, and GraphQL responses with collapsible tree view.
+
+### Advanced Authentication
+
+- Basic Auth (username & password)
 - Bearer Token / JWT
-- API Key (header or query param)
-- OAuth 2.0 with PKCE (coming soon)
+- API Keys (header or query parameter)
+- OAuth 2.0 with PKCE
 
-### Organization
+### Organization & Workflows
 
-- **Collections** - Organize requests into folders and collections
-- **Environments** - Manage variables across different environments
-- **History** - Track all your requests with full response data
+- **Collections** — Group related requests into folders and collections. Rename, duplicate, and organize with ease.
+- **Environments** — Define variables for `development`, `staging`, and `production`. Switch between them with a single click.
+- **History** — Automatically track all your past requests and their full response data.
 
-### Advanced Features
+### Developer Tools
 
-- **GraphQL Support** - Query editor with schema introspection
-- **WebSocket** - Real-time WebSocket connections
-- **gRPC** - Protocol buffer support (coming soon)
-- **Mock Server** - Built-in mock server for testing
-- **Import/Export** - OpenAPI, Postman, and Thunder Client support
+- **Code Generation** — Instantly generate code snippets in cURL, Fetch, Axios, Python (Requests), Go, and more.
+- **Assertions & Testing** — Write tests to validate response status codes, headers, and JSON body properties.
+- **Import/Export** — Migrate data seamlessly with support for OpenAPI, Postman, and Thunder Client formats.
+- **Pre-request & Post-response Scripts** — Run custom JavaScript before and after requests.
+
+---
 
 ## Installation
 
-1. Open VS Code
-2. Go to Extensions (Ctrl+Shift+X / Cmd+Shift+X)
-3. Search for "APIForge"
-4. Click Install
+1. Open Visual Studio Code.
+2. Go to the Extensions view (`Ctrl+Shift+X` on Windows/Linux, `Cmd+Shift+X` on macOS).
+3. Search for **"APIForge"**.
+4. Click **Install**.
+5. Once installed, click the **APIForge icon** in the Activity Bar to get started!
+
+---
 
 ## Quick Start
 
-1. Click the APIForge icon in the Activity Bar
-2. Enter a URL in the request builder
-3. Select your HTTP method
-4. Click "Send"
+1. Click the **APIForge** icon in the Activity Bar.
+2. Click the **+** button to create a new request.
+3. Select your HTTP method (e.g., `GET`) and enter a URL (e.g., `https://jsonplaceholder.typicode.com/users`).
+4. Configure any necessary Headers, Query Parameters, or Body data.
+5. Click **Send** and view the response instantly!
+
+---
 
 ## Keyboard Shortcuts
 
-| Action | Windows/Linux | macOS |
-|--------|---------------|-------|
-| Open APIForge | `Ctrl+Shift+A` | `Cmd+Shift+A` |
-| New Request | `Ctrl+N` | `Cmd+N` |
-| Send Request | `Ctrl+Enter` | `Cmd+Enter` |
+| Action         | Windows/Linux   | macOS         |
+| -------------- | --------------- | ------------- |
+| Open APIForge  | `Ctrl+Shift+A`  | `Cmd+Shift+A` |
+| New Request    | `Ctrl+N`        | `Cmd+N`       |
+| Send Request   | `Ctrl+Enter`    | `Cmd+Enter`   |
+
+---
 
 ## Configuration
 
-APIForge can be configured in VS Code settings:
+APIForge can be customized via your VS Code `settings.json`:
 
 ```json
 {
@@ -80,9 +98,11 @@ APIForge can be configured in VS Code settings:
 }
 ```
 
-## Data Storage
+---
 
-APIForge stores collections and environments in a `.apiforge` folder in your workspace:
+## Data Storage & Version Control
+
+APIForge stores your collections and environments locally in a `.apiforge` folder at the root of your workspace:
 
 ```
 .apiforge/
@@ -94,10 +114,12 @@ APIForge stores collections and environments in a `.apiforge` folder in your wor
 └── apiforge.config.json
 ```
 
-This allows you to:
-- Version control your API collections with Git
-- Share configurations with your team
-- Keep sensitive data local with SecretStorage
+**Benefits:**
+- **Version Control** — Commit your API collections to Git alongside your code.
+- **Team Collaboration** — Share configurations effortlessly with your team.
+- **Security** — Sensitive data (like tokens) is kept local and secure using VS Code's SecretStorage API.
+
+---
 
 ## Development
 
@@ -110,35 +132,55 @@ This allows you to:
 
 ```bash
 # Clone the repository
-git clone https://github.com/apiforge/vscode-apiforge.git
-cd vscode-apiforge
+git clone https://github.com/sitharaj88/apiforge.git
+cd apiforge
 
 # Install dependencies
 npm install
 cd webview-ui && npm install && cd ..
 
-# Build
+# Build the extension and webview
 npm run build
 
-# Watch for changes
+# Watch for changes during development
 npm run dev
 ```
 
-### Debug
+### Debugging
 
-1. Open the project in VS Code
-2. Press F5 to launch the Extension Development Host
-3. The extension will be loaded in the new VS Code window
+1. Open the project in VS Code.
+2. Press `F5` to launch the Extension Development Host.
+3. The extension will load in a new VS Code window.
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+Contributions are always welcome! Whether it's a bug report, feature request, or a pull request, please feel free to contribute on [GitHub](https://github.com/sitharaj88/apiforge).
+
+---
+
+## Author
+
+**Sitharaj Seenivasan** — [@sitharaj88](https://github.com/sitharaj88)
+
+---
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+Licensed under the [Apache License 2.0](LICENSE).
+
+---
 
 ## Acknowledgments
 
-- Built with [Svelte](https://svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/)
-- Inspired by [Thunder Client](https://www.thunderclient.com/), [Postman](https://www.postman.com/), and [Insomnia](https://insomnia.rest/)
+- Built with [Svelte](https://svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/).
+- Inspired by [Thunder Client](https://www.thunderclient.com/), [Postman](https://www.postman.com/), and [Insomnia](https://insomnia.rest/).
+
+---
+
+## Support
+
+If you find APIForge helpful, consider buying me a coffee! Your support helps keep the project actively maintained and free for everyone.
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/sitharaj88)

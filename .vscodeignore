@@ -1,11 +1,11 @@
-# Source files
+# Source files (built output goes to dist/, not needed in package)
 src/**
-webview-ui/src/**
-webview-ui/public/**
+webview-ui/**
 
 # Config files
 .vscode/**
 .github/**
+.claude/**
 *.config.js
 *.config.ts
 tsconfig*.json
@@ -15,8 +15,8 @@ esbuild.js
 
 # Development files
 node_modules/**
-webview-ui/node_modules/**
 out/**
+.venv/**
 .vscode-test/**
 test/**
 coverage/**
@@ -24,6 +24,7 @@ coverage/**
 # Build artifacts that shouldn't be packaged
 *.vsix
 *.tsbuildinfo
+media/*.svg
 
 # Documentation (keep README)
 docs/**
