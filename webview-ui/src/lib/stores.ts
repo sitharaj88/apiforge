@@ -304,6 +304,22 @@ export function updateRequestInCollection(): void {
   }
 }
 
+// Debounced auto-save: whenever activeRequest changes and it belongs to a collection,
+// automatically sync the changes back to the collection after a short idle period.
+// This covers body, auth, and any other fields not covered by explicit on:change handlers.
+let _autoSaveTimer: ReturnType<typeof setTimeout> | null = null;
+
+activeRequest.subscribe(() => {
+  let collectionId: string | null = null;
+  activeRequestSourceCollection.subscribe((id) => (collectionId = id))();
+  if (!collectionId) return;
+
+  if (_autoSaveTimer) clearTimeout(_autoSaveTimer);
+  _autoSaveTimer = setTimeout(() => {
+    updateRequestInCollection();
+  }, 800);
+});
+
 // Active environment changed from VS Code sidebar
 vscode.onMessage('activeEnvironmentChanged', (message) => {
   const msg = message as { type: string; payload: { id: string | null } };

@@ -184,6 +184,7 @@
     class="select font-bold min-w-[110px] text-center {getMethodClass($activeRequest.method)}"
     style="background: var(--bg-glass-md); backdrop-filter: blur(8px); border-color: var(--border-default); font-size: 12px; letter-spacing: 0.04em;"
     bind:value={$activeRequest.method}
+    on:change={() => { if ($activeRequestSourceCollection) updateRequestInCollection(); }}
   >
     {#each methods as method}
       <option value={method} class={getMethodClass(method)}>{method}</option>
@@ -208,7 +209,9 @@
       class="url-input"
       placeholder="Enter request URL..."
       bind:this={urlInput}
-      bind:value={$activeRequest.url}
+      value={$activeRequest.url}
+      on:input={(e) => activeRequest.update(r => ({ ...r, url: (e.currentTarget as HTMLInputElement).value }))}
+      on:change={() => { if ($activeRequestSourceCollection) updateRequestInCollection(); }}
       on:keydown={handleKeyDown}
       on:scroll={syncScroll}
       on:mousemove={handleUrlMouseMove}

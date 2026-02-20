@@ -22,6 +22,8 @@
     wsPing,
     wsClearMessages,
     generateId,
+    updateRequestInCollection,
+    activeRequestSourceCollection,
     type KeyValue,
   } from '../../lib/stores';
 
@@ -216,7 +218,7 @@
           <div class="p-4">
             <KeyValueEditor
               items={$activeRequest.headers}
-              on:change={(e) => activeRequest.update(r => ({ ...r, headers: e.detail }))}
+              on:change={(e) => { activeRequest.update(r => ({ ...r, headers: e.detail })); if ($activeRequestSourceCollection) updateRequestInCollection(); }}
               keyPlaceholder="Header name"
               valuePlaceholder="Value"
             />
@@ -232,7 +234,7 @@
           <div class="p-4 h-full overflow-auto">
             <KeyValueEditor
               items={$activeRequest.params}
-              on:change={(e) => activeRequest.update(r => ({ ...r, params: e.detail }))}
+              on:change={(e) => { activeRequest.update(r => ({ ...r, params: e.detail })); if ($activeRequestSourceCollection) updateRequestInCollection(); }}
               keyPlaceholder="Parameter name"
               valuePlaceholder="Value"
             />
@@ -241,7 +243,7 @@
           <div class="p-4 h-full overflow-auto">
             <KeyValueEditor
               items={$activeRequest.headers}
-              on:change={(e) => activeRequest.update(r => ({ ...r, headers: e.detail }))}
+              on:change={(e) => { activeRequest.update(r => ({ ...r, headers: e.detail })); if ($activeRequestSourceCollection) updateRequestInCollection(); }}
               keyPlaceholder="Header name"
               valuePlaceholder="Value"
             />
