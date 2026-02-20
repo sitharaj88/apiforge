@@ -1,0 +1,40 @@
+# Source files
+src/**
+webview-ui/src/**
+webview-ui/public/**
+
+# Config files
+.vscode/**
+.github/**
+*.config.js
+*.config.ts
+tsconfig*.json
+.eslintrc*
+.prettierrc*
+esbuild.js
+
+# Development files
+node_modules/**
+webview-ui/node_modules/**
+out/**
+.vscode-test/**
+test/**
+coverage/**
+
+# Build artifacts that shouldn't be packaged
+*.vsix
+*.tsbuildinfo
+
+# Documentation (keep README)
+docs/**
+
+# Git
+.git/**
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

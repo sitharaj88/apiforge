@@ -1,0 +1,398 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles that integrate with VS Code */
+:root {
+  font-family: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+  color: var(--vscode-foreground);
+  background-color: var(--vscode-editor-background);
+
+  /* Custom color palette for consistent styling */
+  --api-primary: #3b82f6;
+  --api-primary-hover: #2563eb;
+  --api-success: #10b981;
+  --api-success-hover: #059669;
+  --api-warning: #f59e0b;
+  --api-warning-hover: #d97706;
+  --api-error: #ef4444;
+  --api-error-hover: #dc2626;
+  --api-purple: #8b5cf6;
+  --api-purple-hover: #7c3aed;
+  --api-pink: #ec4899;
+  --api-cyan: #06b6d4;
+
+  /* Improved text colors */
+  --text-primary: var(--vscode-foreground);
+  --text-secondary: color-mix(in srgb, var(--vscode-foreground) 75%, transparent);
+  --text-tertiary: color-mix(in srgb, var(--vscode-foreground) 55%, transparent);
+  --text-muted: color-mix(in srgb, var(--vscode-foreground) 40%, transparent);
+
+  /* Background colors with glassmorphism feel */
+  --bg-elevated: color-mix(in srgb, var(--vscode-editor-background) 92%, white 8%);
+  --bg-subtle: color-mix(in srgb, var(--vscode-editor-background) 96%, white 4%);
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --bg-active: rgba(255, 255, 255, 0.1);
+  --bg-glass: rgba(255, 255, 255, 0.03);
+
+  /* Border colors */
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --border-glow: rgba(59, 130, 246, 0.3);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 15px -3px var(--border-glow);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: radial-gradient(circle at top right, color-mix(in srgb, var(--vscode-editor-background) 95%, var(--api-primary) 5%), var(--vscode-editor-background) 40%);
+  background-attachment: fixed;
+}
+
+/* Scrollbar styling to match VS Code */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vscode-scrollbarSlider-background);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vscode-scrollbarSlider-hoverBackground);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--vscode-scrollbarSlider-activeBackground);
+}
+
+/* Focus styles */
+*:focus {
+  outline: 2px solid var(--vscode-focusBorder);
+  outline-offset: -2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Button base styles */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ease-out;
+    @apply focus:outline-none focus:ring-2 focus:ring-vscode-focus-border focus:ring-offset-1 focus:ring-offset-vscode-background;
+    backdrop-filter: blur(4px);
+  }
+
+  .btn-primary {
+    @apply text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+    background: linear-gradient(135deg, var(--api-primary), var(--api-purple));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--api-primary-hover), var(--api-purple-hover));
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  .btn-secondary {
+    @apply bg-vscode-button-secondary-bg text-vscode-button-secondary-fg hover:bg-vscode-button-hover border border-border-default;
+    background: var(--bg-glass);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-strong);
+  }
+
+  .btn-icon {
+    @apply p-2 rounded-lg transition-all duration-200;
+    color: var(--text-secondary);
+  }
+  
+  .btn-icon:hover {
+    @apply bg-vscode-list-hover text-vscode-foreground;
+    transform: scale(1.05);
+  }
+
+  /* Input base styles */
+  .input {
+    @apply w-full px-3 py-2 rounded-lg text-sm transition-all duration-200;
+    background: var(--bg-glass);
+    color: var(--vscode-input-foreground, var(--vscode-foreground));
+    border: 1px solid var(--border-default);
+    backdrop-filter: blur(8px);
+  }
+
+  .input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .input:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-hover);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--api-primary);
+    background: var(--bg-elevated);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), inset 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .select {
+    @apply px-3 py-2 rounded-lg text-sm cursor-pointer transition-all duration-200;
+    background: var(--bg-glass);
+    color: var(--vscode-dropdown-foreground, var(--vscode-foreground));
+    border: 1px solid var(--border-default);
+    backdrop-filter: blur(8px);
+  }
+
+  .select:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-hover);
+  }
+
+  .select:focus {
+    outline: none;
+    border-color: var(--api-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+
+  /* Panel styles */
+  .panel {
+    @apply bg-vscode-panel-bg border border-vscode-border rounded-xl shadow-sm;
+    background: var(--bg-subtle);
+    backdrop-filter: blur(12px);
+  }
+
+  /* Tab styles */
+  .tab {
+    @apply px-4 py-2.5 text-sm font-medium border-b-2 border-transparent cursor-pointer transition-all duration-200 relative overflow-hidden;
+    color: var(--text-secondary);
+  }
+
+  .tab:hover {
+    color: var(--vscode-foreground);
+    background: var(--bg-hover);
+  }
+
+  .tab-active {
+    @apply text-vscode-foreground;
+    border-bottom-color: var(--api-primary);
+  }
+  
+  .tab-active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--api-primary), var(--api-purple));
+    box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.5);
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
+    color: #c7d2fe;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  /* HTTP Method badges */
+  .method-badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider shadow-sm;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+
+  .method-get {
+    background: linear-gradient(135deg, rgba(97, 175, 254, 0.2), rgba(97, 175, 254, 0.1));
+    color: #61affe;
+    border: 1px solid rgba(97, 175, 254, 0.3);
+  }
+  .method-post {
+    background: linear-gradient(135deg, rgba(73, 204, 144, 0.2), rgba(73, 204, 144, 0.1));
+    color: #49cc90;
+    border: 1px solid rgba(73, 204, 144, 0.3);
+  }
+  .method-put {
+    background: linear-gradient(135deg, rgba(252, 161, 48, 0.2), rgba(252, 161, 48, 0.1));
+    color: #fca130;
+    border: 1px solid rgba(252, 161, 48, 0.3);
+  }
+  .method-patch {
+    background: linear-gradient(135deg, rgba(80, 227, 194, 0.2), rgba(80, 227, 194, 0.1));
+    color: #50e3c2;
+    border: 1px solid rgba(80, 227, 194, 0.3);
+  }
+  .method-delete {
+    background: linear-gradient(135deg, rgba(249, 62, 62, 0.2), rgba(249, 62, 62, 0.1));
+    color: #f93e3e;
+    border: 1px solid rgba(249, 62, 62, 0.3);
+  }
+  .method-head {
+    background: linear-gradient(135deg, rgba(144, 18, 254, 0.2), rgba(144, 18, 254, 0.1));
+    color: #a855f7;
+    border: 1px solid rgba(144, 18, 254, 0.3);
+  }
+  .method-options {
+    background: linear-gradient(135deg, rgba(13, 90, 167, 0.2), rgba(13, 90, 167, 0.1));
+    color: #38bdf8;
+    border: 1px solid rgba(13, 90, 167, 0.3);
+  }
+
+  /* Status code badges */
+  .status-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .status-redirect {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+  .status-client-error {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(249, 115, 22, 0.1));
+    color: #fb923c;
+    border: 1px solid rgba(249, 115, 22, 0.3);
+  }
+  .status-server-error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t;
+    border-color: var(--border-default);
+  }
+
+  /* Key-Value Table */
+  .kv-table {
+    @apply w-full border-collapse;
+  }
+
+  .kv-table th {
+    @apply text-left text-xs font-semibold px-4 py-3;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-default);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--bg-glass);
+  }
+
+  .kv-table td {
+    @apply px-4 py-3 text-sm;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    transition: background-color 0.15s ease;
+  }
+
+  .kv-table tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .kv-table tr:hover td {
+    background: var(--bg-hover);
+  }
+
+  /* Card styles */
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-subtle);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  /* Text utilities */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-tertiary {
+    color: var(--text-tertiary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+  
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--api-primary), var(--api-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Animation for loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Pulse animation for active states */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  50% { opacity: 0.8; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Code editor overrides */
+.cm-editor {
+  font-family: var(--vscode-editor-font-family, 'Consolas', 'Courier New', monospace) !important;
+  font-size: var(--vscode-editor-font-size, 13px) !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cm-editor.cm-focused {
+  outline: none !important;
+}
+
+.cm-scroller {
+  font-family: inherit !important;
+}

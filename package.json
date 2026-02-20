@@ -1,0 +1,357 @@
+{
+  "name": "apiforge",
+  "displayName": "APIForge",
+  "description": "Enterprise-level API testing tool for VS Code - Modern UI for REST, GraphQL, WebSocket & gRPC",
+  "version": "0.1.0",
+  "publisher": "apiforge",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apiforge/vscode-apiforge"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Testing",
+    "Other"
+  ],
+  "keywords": [
+    "api",
+    "rest",
+    "http",
+    "graphql",
+    "grpc",
+    "websocket",
+    "testing",
+    "postman",
+    "thunder client",
+    "api client"
+  ],
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onView:apiforge.collections",
+    "workspaceContains:.apiforge"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "apiforge",
+          "title": "APIForge",
+          "icon": "media/apiforge-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "apiforge": [
+        {
+          "id": "apiforge.collections",
+          "name": "Collections",
+          "icon": "media/collections.svg",
+          "contextualTitle": "APIForge Collections"
+        },
+        {
+          "id": "apiforge.environments",
+          "name": "Environments",
+          "icon": "media/environments.svg",
+          "contextualTitle": "APIForge Environments"
+        },
+        {
+          "id": "apiforge.history",
+          "name": "History",
+          "icon": "media/history.svg",
+          "contextualTitle": "APIForge History"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "apiforge.openPanel",
+        "title": "Open APIForge",
+        "category": "APIForge",
+        "icon": "$(window)"
+      },
+      {
+        "command": "apiforge.newRequest",
+        "title": "New Request",
+        "category": "APIForge",
+        "icon": "$(add)"
+      },
+      {
+        "command": "apiforge.newCollection",
+        "title": "New Collection",
+        "category": "APIForge",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "apiforge.importOpenAPI",
+        "title": "Import OpenAPI/Swagger",
+        "category": "APIForge",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "apiforge.importPostman",
+        "title": "Import Postman Collection",
+        "category": "APIForge",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "apiforge.exportOpenAPI",
+        "title": "Export to OpenAPI",
+        "category": "APIForge",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "apiforge.startMockServer",
+        "title": "Start Mock Server",
+        "category": "APIForge",
+        "icon": "$(server-process)"
+      },
+      {
+        "command": "apiforge.stopMockServer",
+        "title": "Stop Mock Server",
+        "category": "APIForge",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "apiforge.refreshCollections",
+        "title": "Refresh Collections",
+        "category": "APIForge",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "apiforge.clearHistory",
+        "title": "Clear History",
+        "category": "APIForge",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "apiforge.openRequest",
+        "title": "Open Request",
+        "category": "APIForge",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "apiforge.openHistoryEntry",
+        "title": "Open History Entry",
+        "category": "APIForge",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "apiforge.setActiveEnvironment",
+        "title": "Set Active Environment",
+        "category": "APIForge",
+        "icon": "$(check)"
+      },
+      {
+        "command": "apiforge.newEnvironment",
+        "title": "New Environment",
+        "category": "APIForge",
+        "icon": "$(add)"
+      },
+      {
+        "command": "apiforge.deleteCollection",
+        "title": "Delete Collection",
+        "category": "APIForge",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "apiforge.deleteRequest",
+        "title": "Delete Request",
+        "category": "APIForge",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "apiforge.deleteEnvironment",
+        "title": "Delete Environment",
+        "category": "APIForge",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "apiforge.deleteHistoryEntry",
+        "title": "Delete History Entry",
+        "category": "APIForge",
+        "icon": "$(trash)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "apiforge.newCollection",
+          "when": "view == apiforge.collections",
+          "group": "navigation"
+        },
+        {
+          "command": "apiforge.refreshCollections",
+          "when": "view == apiforge.collections",
+          "group": "navigation"
+        },
+        {
+          "command": "apiforge.newEnvironment",
+          "when": "view == apiforge.environments",
+          "group": "navigation"
+        },
+        {
+          "command": "apiforge.clearHistory",
+          "when": "view == apiforge.history",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "apiforge.newRequest",
+          "when": "view == apiforge.collections && viewItem == collection",
+          "group": "inline"
+        },
+        {
+          "command": "apiforge.deleteCollection",
+          "when": "view == apiforge.collections && viewItem == collection",
+          "group": "inline"
+        },
+        {
+          "command": "apiforge.deleteRequest",
+          "when": "view == apiforge.collections && viewItem == request",
+          "group": "inline"
+        },
+        {
+          "command": "apiforge.deleteEnvironment",
+          "when": "view == apiforge.environments && viewItem =~ /^environment/",
+          "group": "inline"
+        },
+        {
+          "command": "apiforge.deleteHistoryEntry",
+          "when": "view == apiforge.history && viewItem == historyEntry",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "APIForge",
+      "properties": {
+        "apiforge.defaultTimeout": {
+          "type": "number",
+          "default": 30000,
+          "description": "Default request timeout in milliseconds"
+        },
+        "apiforge.maxHistoryItems": {
+          "type": "number",
+          "default": 100,
+          "description": "Maximum number of history items to keep"
+        },
+        "apiforge.followRedirects": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically follow HTTP redirects"
+        },
+        "apiforge.validateSSL": {
+          "type": "boolean",
+          "default": true,
+          "description": "Validate SSL certificates"
+        },
+        "apiforge.proxy.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable HTTP proxy"
+        },
+        "apiforge.proxy.url": {
+          "type": "string",
+          "default": "",
+          "description": "Proxy server URL (e.g., http://proxy:8080)"
+        },
+        "apiforge.mockServer.port": {
+          "type": "number",
+          "default": 3333,
+          "description": "Default port for mock server"
+        },
+        "apiforge.editor.fontSize": {
+          "type": "number",
+          "default": 13,
+          "description": "Font size for code editors in APIForge"
+        },
+        "apiforge.response.prettyPrint": {
+          "type": "boolean",
+          "default": true,
+          "description": "Pretty print JSON responses"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "apiforge.openPanel",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a"
+      },
+      {
+        "command": "apiforge.newRequest",
+        "key": "ctrl+n",
+        "mac": "cmd+n",
+        "when": "activeWebviewPanelId == apiforge.mainPanel"
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": ".apiforge/collections/*.json",
+        "url": "./schemas/collection.schema.json"
+      },
+      {
+        "fileMatch": ".apiforge/environments/*.json",
+        "url": "./schemas/environment.schema.json"
+      },
+      {
+        "fileMatch": ".apiforge/apiforge.config.json",
+        "url": "./schemas/config.schema.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "npm run build:extension && npm run build:webview",
+    "build:extension": "node esbuild.js --production",
+    "build:webview": "cd webview-ui && npm run build",
+    "watch": "node esbuild.js --watch",
+    "watch:webview": "cd webview-ui && npm run dev",
+    "dev": "concurrently \"npm run watch\" \"npm run watch:webview\"",
+    "lint": "eslint src --ext ts",
+    "lint:fix": "eslint src --ext ts --fix",
+    "test": "node ./out/test/runTest.js",
+    "test:unit": "vitest run",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.0",
+    "@types/uuid": "^9.0.8",
+    "@types/vscode": "^1.85.0",
+    "@types/ws": "^8.5.10",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.24.0",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.20.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.10.0",
+    "@grpc/proto-loader": "^0.7.10",
+    "ajv": "^8.12.0",
+    "axios": "^1.6.7",
+    "express": "^4.18.2",
+    "form-data": "^4.0.0",
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0",
+    "jsonpath-plus": "^8.0.0",
+    "uuid": "^9.0.1",
+    "ws": "^8.16.0",
+    "yaml": "^2.3.4"
+  }
+}
