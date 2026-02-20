@@ -175,7 +175,6 @@ Licensed under the [Apache License 2.0](LICENSE).
 ## Acknowledgments
 
 - Built with [Svelte](https://svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/).
-- Inspired by [Thunder Client](https://www.thunderclient.com/), [Postman](https://www.postman.com/), and [Insomnia](https://insomnia.rest/).
 
 ---
 
