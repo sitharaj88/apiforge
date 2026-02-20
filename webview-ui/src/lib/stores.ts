@@ -30,6 +30,7 @@ export interface RequestConfig {
     bearer?: { token: string };
     apiKey?: { key: string; value: string; addTo: 'header' | 'query' };
   };
+  assertions?: { id: string; type: string; target: string; operator: string; value: string; enabled: boolean }[];
 }
 
 export interface ResponseData {

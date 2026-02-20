@@ -112,7 +112,7 @@
     aria-labelledby="modal-title"
     tabindex="-1"
   >
-    <div class="modal-content w-full max-w-2xl max-h-[85vh] flex flex-col" on:click|stopPropagation={() => {}}>
+    <div class="modal-content w-full max-w-2xl max-h-[85vh] flex flex-col">
       <!-- Header -->
       <div class="modal-header flex items-center justify-between px-6 py-5 flex-shrink-0">
         <div class="flex items-center gap-4">
@@ -159,9 +159,9 @@
 
           <!-- Format Selector -->
           <div class="mb-5">
-            <label class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider mb-3">
+            <span class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider mb-3">
               Export Format
-            </label>
+            </span>
             <div class="space-y-2">
               {#each exportFormats as format}
                 <button

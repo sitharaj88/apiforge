@@ -203,6 +203,14 @@ export class APIForgePanel {
         await this._updateRequestInCollection((message as any).payload);
         break;
 
+      case 'renameRequest' as any:
+        await this._renameRequest((message as any).payload);
+        break;
+
+      case 'renameCollection' as any:
+        await this._renameCollection((message as any).payload);
+        break;
+
       // GraphQL
       case 'sendGraphQLRequest' as any:
         await this._sendGraphQLRequest((message as any).payload);
@@ -370,6 +378,24 @@ export class APIForgePanel {
         payload: { collection, request: payload.request },
       });
     }
+  }
+
+  private async _renameRequest(payload: { collectionId: string; requestId: string; name: string }) {
+    const collection = await this._storageService.renameRequestInCollection(
+      payload.collectionId,
+      payload.requestId,
+      payload.name
+    );
+    if (collection) {
+      await this._loadCollections();
+      this._refreshTreeViews('collections');
+    }
+  }
+
+  private async _renameCollection(payload: { id: string; name: string }) {
+    await this._storageService.renameCollection(payload.id, payload.name);
+    await this._loadCollections();
+    this._refreshTreeViews('collections');
   }
 
   private async _loadEnvironments() {

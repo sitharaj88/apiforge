@@ -93,6 +93,9 @@
           on:deleteCollection
           on:selectRequest
           on:deleteRequest
+          on:addRequest
+          on:renameCollection
+          on:renameRequest
         />
       {:else if activeTab === 'environments'}
         <EnvironmentsPanel

@@ -96,6 +96,37 @@ export class StorageService {
     return collection;
   }
 
+  async renameRequestInCollection(collectionId: string, requestId: string, name: string): Promise<Collection | null> {
+    const collections = await this.getCollections();
+    const collection = collections.find(c => c.id === collectionId);
+    if (!collection) return null;
+
+    const renameInArray = (requests: RequestConfig[]): boolean => {
+      const req = requests.find(r => r.id === requestId);
+      if (req) { req.name = name; return true; }
+      return false;
+    };
+
+    if (!renameInArray(collection.requests)) {
+      for (const folder of collection.folders) {
+        if (this.updateRequestInFolders(folder, { id: requestId, name } as any)) break;
+      }
+    }
+
+    collection.modified = new Date().toISOString();
+    await this.context.globalState.update(COLLECTIONS_KEY, collections);
+    return collection;
+  }
+
+  async renameCollection(id: string, name: string): Promise<void> {
+    const collections = await this.getCollections();
+    const collection = collections.find(c => c.id === id);
+    if (!collection) return;
+    collection.name = name;
+    collection.modified = new Date().toISOString();
+    await this.context.globalState.update(COLLECTIONS_KEY, collections);
+  }
+
   async deleteRequestFromCollection(collectionId: string, requestId: string): Promise<Collection | null> {
     const collections = await this.getCollections();
     const collection = collections.find(c => c.id === collectionId);

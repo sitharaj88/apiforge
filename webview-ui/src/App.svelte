@@ -151,6 +151,37 @@
     vscode.postMessage({ type: 'deleteRequest', payload: e.detail });
   }
 
+  function handleRenameRequest(e: CustomEvent<{ collectionId: string; requestId: string; name: string }>) {
+    vscode.postMessage({ type: 'renameRequest', payload: e.detail });
+    // Keep active request name in sync if it's the one being renamed
+    activeRequest.update(r => r.id === e.detail.requestId ? { ...r, name: e.detail.name } : r);
+  }
+
+  function handleRenameCollection(e: CustomEvent<{ id: string; name: string }>) {
+    vscode.postMessage({ type: 'renameCollection', payload: e.detail });
+  }
+
+  function handleAddRequest(e: CustomEvent<{ collectionId: string }>) {
+    const newReq = {
+      id: Math.random().toString(36).substring(2, 11),
+      name: 'New Request',
+      method: 'GET' as const,
+      url: '',
+      headers: [{ id: Math.random().toString(36).substring(2, 11), key: '', value: '', enabled: true }],
+      params: [{ id: Math.random().toString(36).substring(2, 11), key: '', value: '', enabled: true }],
+      body: '',
+      bodyType: 'none' as const,
+      auth: { type: 'none' as const },
+    };
+    vscode.postMessage({
+      type: 'saveRequestToCollection',
+      payload: { collectionId: e.detail.collectionId, request: newReq },
+    });
+    activeRequest.set(newReq);
+    activeRequestSourceCollection.set(e.detail.collectionId);
+    response.set(null);
+  }
+
   function handleCreateEnvironment(e: CustomEvent<{ name: string }>) {
     vscode.postMessage({ type: 'createEnvironment', payload: { name: e.detail.name } });
   }
@@ -389,6 +420,9 @@
       on:deleteCollection={handleDeleteCollection}
       on:selectRequest={handleSelectRequest}
       on:deleteRequest={handleDeleteRequest}
+      on:addRequest={handleAddRequest}
+      on:renameRequest={handleRenameRequest}
+      on:renameCollection={handleRenameCollection}
       on:createEnvironment={handleCreateEnvironment}
       on:selectEnvironment={handleSelectEnvironment}
       on:deleteEnvironment={handleDeleteEnvironment}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, tick } from 'svelte';
 
   interface Request {
     id: string;
@@ -23,7 +23,76 @@
   let showNewCollectionInput = false;
   let newCollectionName = '';
 
-  function toggleCollection(id: string) {
+  // ── Inline rename state ──────────────────────────────────────────
+  type EditingItem =
+    | { type: 'collection'; id: string }
+    | { type: 'request'; collectionId: string; requestId: string };
+
+  let editingItem: EditingItem | null = null;
+  let editingName = '';
+  let editInput: HTMLInputElement;
+
+  async function startEditCollection(e: Event, id: string, name: string) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (editingItem) commitEdit();
+    editingItem = { type: 'collection', id };
+    editingName = name;
+    await tick();
+    editInput?.focus();
+    editInput?.select();
+  }
+
+  async function startEditRequest(e: Event, collectionId: string, requestId: string, name: string) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (editingItem) commitEdit();
+    editingItem = { type: 'request', collectionId, requestId };
+    editingName = name;
+    await tick();
+    editInput?.focus();
+    editInput?.select();
+  }
+
+  function commitEdit() {
+    if (!editingItem) return;
+    const captured = editingItem;
+    const name = editingName.trim();
+    editingItem = null; // close input first
+    if (name) {
+      if (captured.type === 'collection') {
+        dispatch('renameCollection', { id: captured.id, name });
+      } else {
+        dispatch('renameRequest', { collectionId: captured.collectionId, requestId: captured.requestId, name });
+      }
+    }
+  }
+
+  function cancelEdit() {
+    editingItem = null;
+  }
+
+  function handleEditKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); commitEdit(); }
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); cancelEdit(); }
+  }
+
+  // Commit when clicking anywhere outside the active input
+  function handlePanelPointerDown(e: PointerEvent) {
+    if (!editingItem) return;
+    if (editInput && !editInput.contains(e.target as Node)) {
+      commitEdit();
+    }
+  }
+
+  // ────────────────────────────────────────────────────────────────
+
+  function toggleCollection(_e: MouseEvent, id: string) {
+    if (editingItem) return; // don't toggle while renaming
+    toggleCollectionId(id);
+  }
+
+  function toggleCollectionId(id: string) {
     if (expandedCollections.has(id)) {
       expandedCollections.delete(id);
     } else {
@@ -54,7 +123,8 @@
   }
 </script>
 
-<div class="flex flex-col h-full bg-vscode-sidebar-bg/30 backdrop-blur-xl border-r border-vscode-border/30 shadow-[4px_0_24px_rgba(0,0,0,0.1)]">
+<div class="flex flex-col h-full bg-vscode-sidebar-bg/30 backdrop-blur-xl border-r border-vscode-border/30 shadow-[4px_0_24px_rgba(0,0,0,0.1)]"
+  on:pointerdown={handlePanelPointerDown}>
   <!-- Header -->
   <div class="flex items-center justify-between px-4 py-3 border-b border-vscode-border/30 bg-vscode-editor-background/40 backdrop-blur-md">
     <span class="text-xs font-semibold text-vscode-foreground/80 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">Collections</span>
@@ -117,8 +187,8 @@
             class="flex items-center gap-2.5 w-full px-3 py-2 hover:bg-vscode-list-hover/50 group cursor-pointer rounded-md transition-colors duration-150"
             role="button"
             tabindex="0"
-            on:click={() => toggleCollection(collection.id)}
-            on:keydown={(e) => e.key === 'Enter' && toggleCollection(collection.id)}
+            on:click={(e) => toggleCollection(e, collection.id)}
+            on:keydown={(e) => e.key === 'Enter' && toggleCollectionId(collection.id)}
           >
             <svg
               class="w-3.5 h-3.5 text-vscode-foreground/50 transition-transform duration-200"
@@ -133,8 +203,36 @@
             <svg class="w-4.5 h-4.5 text-api-primary/80 drop-shadow-[0_0_5px_rgba(var(--api-primary-rgb),0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
             </svg>
-            <span class="flex-1 text-sm font-medium text-left text-vscode-foreground/90 truncate group-hover:text-api-primary transition-colors duration-200">{collection.name}</span>
+            {#if editingItem?.type === 'collection' && editingItem.id === collection.id}
+              <!-- svelte-ignore a11y_autofocus -->
+              <input
+                bind:this={editInput}
+                class="inline-name-input flex-1"
+                bind:value={editingName}
+                on:click|stopPropagation
+                on:keydown={handleEditKeydown}
+                autofocus
+              />
+            {:else}
+              <span
+                role="button"
+                tabindex="0"
+                class="flex-1 text-sm font-medium text-left text-vscode-foreground/90 truncate group-hover:text-api-primary transition-colors duration-200"
+                title="Double-click to rename"
+                on:dblclick={(e) => startEditCollection(e, collection.id, collection.name)}
+                on:keydown={(e) => e.key === 'F2' && startEditCollection(e, collection.id, collection.name)}
+              >{collection.name}</span>
+            {/if}
             <span class="text-xs font-medium px-1.5 py-0.5 rounded-md bg-vscode-editor-background/50 text-vscode-foreground/50 border border-vscode-border/30 shadow-inner">{collection.requests.length}</span>
+            <button
+              class="p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-api-primary/15 text-vscode-foreground/40 hover:text-api-primary transition-all duration-200"
+              title="Add request to collection"
+              on:click|stopPropagation={() => { dispatch('addRequest', { collectionId: collection.id }); expandedCollections.add(collection.id); expandedCollections = expandedCollections; }}
+            >
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
             <button
               class="p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-red-500/10 text-vscode-foreground/40 hover:text-red-400 transition-all duration-200"
               title="Delete collection"
@@ -154,11 +252,30 @@
                   class="flex items-center gap-3 w-full px-3 py-1.5 hover:bg-vscode-list-hover/50 group cursor-pointer transition-colors duration-150 rounded-md"
                   role="button"
                   tabindex="0"
-                  on:click={() => dispatch('selectRequest', { collectionId: collection.id, request })}
-                  on:keydown={(e) => e.key === 'Enter' && dispatch('selectRequest', { collectionId: collection.id, request })}
+                  on:click={(e) => { if (editingItem) { e.stopPropagation(); return; } dispatch('selectRequest', { collectionId: collection.id, request }); }}
+                  on:keydown={(e) => e.key === 'Enter' && !editingItem && dispatch('selectRequest', { collectionId: collection.id, request })}
                 >
                   <span class="text-[10px] font-mono font-bold w-12 {getMethodColor(request.method)} drop-shadow-[0_0_5px_currentColor]">{request.method}</span>
-                  <span class="flex-1 text-xs text-left text-vscode-foreground/80 truncate group-hover:text-vscode-foreground transition-colors duration-200">{request.name}</span>
+                  {#if editingItem?.type === 'request' && editingItem.collectionId === collection.id && editingItem.requestId === request.id}
+                    <!-- svelte-ignore a11y_autofocus -->
+                    <input
+                      bind:this={editInput}
+                      class="inline-name-input flex-1"
+                      bind:value={editingName}
+                      on:click|stopPropagation
+                      on:keydown={handleEditKeydown}
+                      autofocus
+                    />
+                  {:else}
+                    <span
+                      role="button"
+                      tabindex="0"
+                      class="flex-1 text-xs text-left text-vscode-foreground/80 truncate group-hover:text-vscode-foreground transition-colors duration-200"
+                      title="Double-click to rename"
+                      on:dblclick={(e) => startEditRequest(e, collection.id, request.id, request.name)}
+                      on:keydown={(e) => e.key === 'F2' && startEditRequest(e, collection.id, request.id, request.name)}
+                    >{request.name}</span>
+                  {/if}
                   <button
                     class="p-1 rounded-md opacity-0 group-hover:opacity-100 hover:bg-red-500/10 text-vscode-foreground/40 hover:text-red-400 transition-all duration-200"
                     title="Delete request"
@@ -192,5 +309,20 @@
   .btn-sm {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
+  }
+
+  /* Inline rename input — inherits text style, minimal chrome */
+  .inline-name-input {
+    background: var(--vscode-input-background, var(--vscode-editor-background));
+    color: var(--vscode-input-foreground, var(--vscode-foreground));
+    border: 1px solid var(--vscode-focusBorder, rgba(var(--api-primary-rgb), 0.6));
+    border-radius: 3px;
+    padding: 0 4px;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: 1.4;
+    outline: none;
+    width: 100%;
+    min-width: 0;
   }
 </style>

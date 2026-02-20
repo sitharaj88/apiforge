@@ -90,9 +90,9 @@
     <div class="px-6 py-5 flex-1 overflow-auto">
       <!-- Import Type Selector -->
       <div class="mb-5">
-        <label class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider mb-3">
+        <span class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider mb-3">
           Import Type
-        </label>
+        </span>
         <div class="grid grid-cols-2 gap-2">
           {#each importTypes as type}
             <button
@@ -118,10 +118,11 @@
 
       <!-- Import Content -->
       <div>
-        <label class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider mb-3">
+        <label for="import-content" class="block text-xs font-medium text-vscode-foreground/60 uppercase tracking-wider mb-3">
           {importType === 'curl' ? 'cURL Command' : `${importTypes.find(t => t.id === importType)?.label} Content`}
         </label>
         <textarea
+          id="import-content"
           class="input-modern w-full font-mono text-sm"
           rows="8"
           placeholder={currentPlaceholder}

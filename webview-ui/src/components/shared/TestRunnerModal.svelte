@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { collections, environments, activeEnvironmentId } from '../../lib/stores';
+  import { collections, activeEnvironmentId } from '../../lib/stores';
   import { vscode } from '../../lib/vscode-api';
 
   export let isOpen = false;
@@ -110,7 +110,7 @@
     aria-labelledby="modal-title"
     tabindex="-1"
   >
-    <div class="modal-content w-full max-w-3xl max-h-[85vh] flex flex-col" on:click|stopPropagation={() => {}}>
+    <div class="modal-content w-full max-w-3xl max-h-[85vh] flex flex-col">
       <!-- Header -->
       <div class="modal-header flex items-center justify-between px-6 py-5 flex-shrink-0">
         <div class="flex items-center gap-4">
